@@ -11,6 +11,12 @@ namespace OnlineSchool.Data
 
         public DbSet<Lesson> Lessons { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<ResultTestLesson> ResultTestLessons { get; set; }
+
+        public DbSet<RoleUser> RoleUsers { get; set; }
+
         public DbSet<TestLesson> TestLessons { get; set; }
 
         public DbSet<Topic> Topics { get; set; }

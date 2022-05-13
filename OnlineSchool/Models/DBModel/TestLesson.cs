@@ -6,6 +6,7 @@ namespace OnlineSchool.Models.DBModel
     {
         [Key]
         public int Id { get; set; }
+
         public int LessonId { get; set; }
 
         public string Question { get; set; }
