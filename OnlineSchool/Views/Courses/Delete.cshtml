@@ -1,0 +1,33 @@
+﻿@model OnlineSchool.Models.DBModel.Course
+
+@{
+    ViewData["Title"] = "Удаление курса";
+}
+
+<h1>Удаление курса</h1>
+<hr />
+<h3>Вы действительно хотите удалить выбранный курс?</h3>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TitleCourse)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TitleCourse)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DescriptionCourse)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DescriptionCourse)
+        </dd>
+    </dl>
+
+    <div class="form-group mb-3">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Удалить" class="btn btn-danger" /> |
+            <a asp-action="Index" role="button" class="btn btn-outlie-secondary">Вернуться к списку</a>
+        </form>
+    </div>
+</div>

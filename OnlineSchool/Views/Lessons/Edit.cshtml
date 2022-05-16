@@ -1,0 +1,58 @@
+﻿@model OnlineSchool.Models.DBModel.Lesson
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Lesson</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group mb-3">
+                <label asp-for="TitleLesson" class="control-label"></label>
+                <input asp-for="TitleLesson" class="form-control" />
+                <span asp-validation-for="TitleLesson" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="DescriptionLesson" class="control-label"></label>
+                <input asp-for="DescriptionLesson" class="form-control" />
+                <span asp-validation-for="DescriptionLesson" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="URLVideo" class="control-label"></label>
+                <input asp-for="URLVideo" class="form-control" onclick="getVideo(this.value)"/>
+                <span asp-validation-for="URLVideo" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="TopicId" class="control-label"></label>
+                <select asp-for="TopicId" class="form-control" asp-items="ViewBag.TopicId"></select>
+                <span asp-validation-for="TopicId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+                <a asp-action="Index" role="button" class="btn btn-outline-secondary">Вернуться к списку</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        <div class="ratio ratio-16x9">
+            <iframe id="frame" src="@Model.URLVideo"></iframe>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+    <script type="text/javascript">
+    function getVideo(url) {
+        document.getElementById("frame").setAttribute("src", url.replace("watch?v=", "embed/"));
+    }
+</script>

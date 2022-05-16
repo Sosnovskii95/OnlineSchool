@@ -11,10 +11,13 @@ namespace OnlineSchool.Models.DBModel
 
         public string DescriptionLesson { get; set; }
 
+        [DataType(DataType.Url)]
+        public string URLVideo { get; set; }
+
         public int TopicId { get; set; }
 
-        public Topic Topic { get; set; }
+        public Topic? Topic { get; set; }
 
-        public ICollection<TestLesson> TestLessons { get; set; }
+        public ICollection<TestLesson>? TestLessons { get; set; }
     }
 }

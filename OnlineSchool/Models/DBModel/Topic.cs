@@ -11,8 +11,8 @@ namespace OnlineSchool.Models.DBModel
 
         public string DescriptionTopic { get; set; }
 
-        public int CourceId { get; set; }
+        public int CourseId { get; set; }
 
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
     }
 }

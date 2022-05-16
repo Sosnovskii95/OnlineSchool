@@ -1,0 +1,36 @@
+﻿@model OnlineSchool.Models.DBModel.Course
+
+@{
+    ViewData["Title"] = "Редактирование курса";
+}
+
+<h1>Редактирование курса</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group mb-3">
+                <label asp-for="TitleCourse" class="control-label"></label>
+                <input asp-for="TitleCourse" class="form-control" />
+                <span asp-validation-for="TitleCourse" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="DescriptionCourse" class="control-label"></label>
+                <input asp-for="DescriptionCourse" class="form-control" />
+                <span asp-validation-for="DescriptionCourse" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+                <a asp-action="Index" role="button" class="btn btn-outline-secondary">Вернуться к списку</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
