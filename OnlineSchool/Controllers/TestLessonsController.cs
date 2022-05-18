@@ -10,94 +10,90 @@ using OnlineSchool.Models.DBModel;
 
 namespace OnlineSchool.Controllers
 {
-    public class CoursesController : Controller
+    public class TestLessonsController : Controller
     {
         private readonly DBContextSchool _context;
-        private readonly IWebHostEnvironment _webHost;
 
-        public CoursesController(DBContextSchool context, IWebHostEnvironment webHost)
+        public TestLessonsController(DBContextSchool context)
         {
             _context = context;
-            _webHost = webHost;
         }
 
-        // GET: Courses
+        // GET: TestLessons
         public async Task<IActionResult> Index()
         {
-              return _context.Courses != null ? 
-                          View(await _context.Courses.ToListAsync()) :
-                          Problem("Entity set 'DBContextSchool.Courses'  is null.");
+            var dBContextSchool = _context.TestLessons.Include(t => t.Lesson);
+            return View(await dBContextSchool.ToListAsync());
         }
 
-        // GET: Courses/Details/5
+        // GET: TestLessons/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Courses == null)
+            if (id == null || _context.TestLessons == null)
             {
                 return NotFound();
             }
 
-            var course = await _context.Courses
+            var testLesson = await _context.TestLessons
+                .Include(t => t.Lesson)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (testLesson == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(testLesson);
         }
 
-        // GET: Courses/Create
+        // GET: TestLessons/Create
         public IActionResult Create()
         {
+            ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "TitleLesson");
             return View();
         }
 
-        // POST: Courses/Create
+        // POST: TestLessons/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TitleCourse,DescriptionCourse")] Course course, IFormFile ImageFileName)
+        public async Task<IActionResult> Create([Bind("Id,LessonId,Question,AnswerOne,AnswerTwo,AnswerThree,AnswerFour,AnswerFive,RightAnswer")] TestLesson testLesson)
         {
             if (ModelState.IsValid)
             {
-                course.ImageFileName = ImageFileName.FileName;
-                course.ContentTypeFileName = ImageFileName.ContentType;
-                _context.Add(course);
+                _context.Add(testLesson);
                 await _context.SaveChangesAsync();
-
-
-
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "TitleLesson", testLesson.LessonId);
+            return View(testLesson);
         }
 
-        // GET: Courses/Edit/5
+        // GET: TestLessons/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Courses == null)
+            if (id == null || _context.TestLessons == null)
             {
                 return NotFound();
             }
 
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
+            var testLesson = await _context.TestLessons.FindAsync(id);
+            if (testLesson == null)
             {
                 return NotFound();
             }
-            return View(course);
+            ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "TitleLesson", testLesson.LessonId);
+            return View(testLesson);
         }
 
-        // POST: Courses/Edit/5
+        // POST: TestLessons/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TitleCourse,DescriptionCourse,ImageFileName")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LessonId,Question,AnswerOne,AnswerTwo,AnswerThree,AnswerFour,AnswerFive,RightAnswer")] TestLesson testLesson)
         {
-            if (id != course.Id)
+            if (id != testLesson.Id)
             {
                 return NotFound();
             }
@@ -106,12 +102,12 @@ namespace OnlineSchool.Controllers
             {
                 try
                 {
-                    _context.Update(course);
+                    _context.Update(testLesson);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseExists(course.Id))
+                    if (!TestLessonExists(testLesson.Id))
                     {
                         return NotFound();
                     }
@@ -122,49 +118,51 @@ namespace OnlineSchool.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            ViewData["LessonId"] = new SelectList(_context.Lessons, "Id", "TitleLesson", testLesson.LessonId);
+            return View(testLesson);
         }
 
-        // GET: Courses/Delete/5
+        // GET: TestLessons/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Courses == null)
+            if (id == null || _context.TestLessons == null)
             {
                 return NotFound();
             }
 
-            var course = await _context.Courses
+            var testLesson = await _context.TestLessons
+                .Include(t => t.Lesson)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (testLesson == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(testLesson);
         }
 
-        // POST: Courses/Delete/5
+        // POST: TestLessons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Courses == null)
+            if (_context.TestLessons == null)
             {
-                return Problem("Entity set 'DBContextSchool.Courses'  is null.");
+                return Problem("Entity set 'DBContextSchool.TestLessons'  is null.");
             }
-            var course = await _context.Courses.FindAsync(id);
-            if (course != null)
+            var testLesson = await _context.TestLessons.FindAsync(id);
+            if (testLesson != null)
             {
-                _context.Courses.Remove(course);
+                _context.TestLessons.Remove(testLesson);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CourseExists(int id)
+        private bool TestLessonExists(int id)
         {
-          return (_context.Courses?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.TestLessons?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

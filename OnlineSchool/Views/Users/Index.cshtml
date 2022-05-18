@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OnlineSchool.Models.DBModel.Course>
+﻿@model IEnumerable<OnlineSchool.Models.DBModel.User>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TitleCourse)
+                @Html.DisplayNameFor(model => model.EmailUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DescriptionCourse)
+                @Html.DisplayNameFor(model => model.LoginUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageFileName)
+                @Html.DisplayNameFor(model => model.PasswordUser)
             </th>
             <th></th>
         </tr>
@@ -28,13 +28,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TitleCourse)
+                @Html.DisplayFor(modelItem => item.EmailUser)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DescriptionCourse)
+                @Html.DisplayFor(modelItem => item.LoginUser)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageFileName)
+                @Html.DisplayFor(modelItem => item.PasswordUser)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

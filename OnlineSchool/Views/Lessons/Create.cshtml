@@ -22,7 +22,7 @@
             </div>
             <div class="form-group mb-3">
                 <label asp-for="URLVideo" class="control-label"></label>
-                <input asp-for="URLVideo" class="form-control" onclick="getVideo(this.value)" />
+                <input asp-for="URLVideo" class="form-control" onchange="getVideo(this.value)" />
                 <span asp-validation-for="URLVideo" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">

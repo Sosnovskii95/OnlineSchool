@@ -1,4 +1,4 @@
-﻿@model OnlineSchool.Models.DBModel.Course
+﻿@model OnlineSchool.Models.DBModel.User
 
 @{
     ViewData["Title"] = "Details";
@@ -7,26 +7,26 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Course</h4>
+    <h4>User</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TitleCourse)
+            @Html.DisplayNameFor(model => model.EmailUser)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TitleCourse)
+            @Html.DisplayFor(model => model.EmailUser)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DescriptionCourse)
+            @Html.DisplayNameFor(model => model.LoginUser)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DescriptionCourse)
+            @Html.DisplayFor(model => model.LoginUser)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageFileName)
+            @Html.DisplayNameFor(model => model.PasswordUser)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageFileName)
+            @Html.DisplayFor(model => model.PasswordUser)
         </dd>
     </dl>
 </div>

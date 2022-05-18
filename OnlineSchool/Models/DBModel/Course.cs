@@ -10,5 +10,9 @@ namespace OnlineSchool.Models.DBModel
         public string TitleCourse { get; set; }
 
         public string DescriptionCourse { get; set; }
+
+        public string ImageFileName { get; set; }
+
+        public string ContentTypeFileName { get; set; }
     }
 }

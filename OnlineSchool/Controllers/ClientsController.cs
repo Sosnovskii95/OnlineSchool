@@ -10,94 +10,87 @@ using OnlineSchool.Models.DBModel;
 
 namespace OnlineSchool.Controllers
 {
-    public class CoursesController : Controller
+    public class ClientsController : Controller
     {
         private readonly DBContextSchool _context;
-        private readonly IWebHostEnvironment _webHost;
 
-        public CoursesController(DBContextSchool context, IWebHostEnvironment webHost)
+        public ClientsController(DBContextSchool context)
         {
             _context = context;
-            _webHost = webHost;
         }
 
-        // GET: Courses
+        // GET: Clients
         public async Task<IActionResult> Index()
         {
-              return _context.Courses != null ? 
-                          View(await _context.Courses.ToListAsync()) :
-                          Problem("Entity set 'DBContextSchool.Courses'  is null.");
+              return _context.Clients != null ? 
+                          View(await _context.Clients.ToListAsync()) :
+                          Problem("Entity set 'DBContextSchool.Clients'  is null.");
         }
 
-        // GET: Courses/Details/5
+        // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Courses == null)
+            if (id == null || _context.Clients == null)
             {
                 return NotFound();
             }
 
-            var course = await _context.Courses
+            var client = await _context.Clients
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(client);
         }
 
-        // GET: Courses/Create
+        // GET: Clients/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Courses/Create
+        // POST: Clients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TitleCourse,DescriptionCourse")] Course course, IFormFile ImageFileName)
+        public async Task<IActionResult> Create([Bind("Id,EmailClient,LoginClient,PasswordClient,FirstNameClient,LastNameClient,Age,NumberPhone")] Client client)
         {
             if (ModelState.IsValid)
             {
-                course.ImageFileName = ImageFileName.FileName;
-                course.ContentTypeFileName = ImageFileName.ContentType;
-                _context.Add(course);
+                _context.Add(client);
                 await _context.SaveChangesAsync();
-
-
-
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(client);
         }
 
-        // GET: Courses/Edit/5
+        // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Courses == null)
+            if (id == null || _context.Clients == null)
             {
                 return NotFound();
             }
 
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null)
             {
                 return NotFound();
             }
-            return View(course);
+            return View(client);
         }
 
-        // POST: Courses/Edit/5
+        // POST: Clients/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TitleCourse,DescriptionCourse,ImageFileName")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EmailClient,LoginClient,PasswordClient,FirstNameClient,LastNameClient,Age,NumberPhone")] Client client)
         {
-            if (id != course.Id)
+            if (id != client.Id)
             {
                 return NotFound();
             }
@@ -106,12 +99,12 @@ namespace OnlineSchool.Controllers
             {
                 try
                 {
-                    _context.Update(course);
+                    _context.Update(client);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseExists(course.Id))
+                    if (!ClientExists(client.Id))
                     {
                         return NotFound();
                     }
@@ -122,49 +115,49 @@ namespace OnlineSchool.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(client);
         }
 
-        // GET: Courses/Delete/5
+        // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Courses == null)
+            if (id == null || _context.Clients == null)
             {
                 return NotFound();
             }
 
-            var course = await _context.Courses
+            var client = await _context.Clients
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            return View(client);
         }
 
-        // POST: Courses/Delete/5
+        // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Courses == null)
+            if (_context.Clients == null)
             {
-                return Problem("Entity set 'DBContextSchool.Courses'  is null.");
+                return Problem("Entity set 'DBContextSchool.Clients'  is null.");
             }
-            var course = await _context.Courses.FindAsync(id);
-            if (course != null)
+            var client = await _context.Clients.FindAsync(id);
+            if (client != null)
             {
-                _context.Courses.Remove(course);
+                _context.Clients.Remove(client);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CourseExists(int id)
+        private bool ClientExists(int id)
         {
-          return (_context.Courses?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Clients?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

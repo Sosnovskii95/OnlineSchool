@@ -15,10 +15,6 @@ namespace OnlineSchool.Models.DBModel
 
         public TestLesson TestLesson { get; set; }
 
-        public int UserId { get; set; }
-
-        public User User { get; set; }
-
         public string ValueAnswer { get; set; }
     }
 }

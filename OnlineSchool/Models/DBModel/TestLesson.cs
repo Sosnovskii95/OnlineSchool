@@ -9,6 +9,8 @@ namespace OnlineSchool.Models.DBModel
 
         public int LessonId { get; set; }
 
+        public Lesson? Lesson { get; set; }
+
         public string Question { get; set; }
 
         public string AnswerOne { get; set; }
