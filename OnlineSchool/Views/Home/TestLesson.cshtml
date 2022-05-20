@@ -1,0 +1,30 @@
+﻿@model IEnumerable<OnlineSchool.Models.DBModel.TestLesson>
+
+@{
+    ViewData["Title"] = "TestLesson";
+}
+
+<h1>TestLesson</h1>
+<form asp-action="ResultTest">
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>@item.Question</label><br>
+                    <input type="checkbox" name="AnswerOne" value="@item.Id:1" />
+                    <span>@item.AnswerOne</span><br>
+                    <input type="checkbox" name="AnswerTwo" value="@item.Id:2" />
+                    <span>@item.AnswerTwo</span><br>
+                    <input type="checkbox" name="AnswerThree" value="@item.Id:3" />
+                    <span>@item.AnswerThree</span><br>
+                    <input type="checkbox" name="AnswerFour" value="@item.Id:4" />
+                    <span>@item.AnswerFour</span><br>
+                    <input type="checkbox" name="AnswerFive" value="@item.Id:5" />
+                    <span>@item.AnswerFive</span><br>
+                </div>
+            </div>
+        </div>
+    }
+    <input type="submit" value="Отправить на проверку" />
+</form>
