@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<OnlineSchool.Models.DBModel.Topic>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Список тем";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
+<h1>Список тем</h1>
+<hr />
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Добавить тему</a>
 </p>
 <table class="table">
     <thead>
@@ -25,23 +26,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitleTopic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DescriptionTopic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TitleTopic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescriptionTopic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Информация</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

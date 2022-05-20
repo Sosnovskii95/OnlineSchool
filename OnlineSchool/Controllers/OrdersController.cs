@@ -104,7 +104,6 @@ namespace OnlineSchool.Controllers
             ViewData["StateOrderId"] = new SelectList(_context.StateOrders, "Id", "TitleState", order.StateOrderId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
             return View(order);
-            return View(order);
         }
 
         // POST: Orders/Edit/5

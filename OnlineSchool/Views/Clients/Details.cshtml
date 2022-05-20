@@ -1,14 +1,13 @@
 ﻿@model OnlineSchool.Models.DBModel.Client
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Информация";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
+<h1>Информация</h1>
+<hr />
 <div>
-    <h4>Client</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.EmailClient)
@@ -29,16 +28,10 @@
             @Html.DisplayFor(model => model.PasswordClient)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstNameClient)
+            @Html.DisplayNameFor(model => model.FirstLastNameClient)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstNameClient)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastNameClient)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastNameClient)
+            @Html.DisplayFor(model => model.FirstLastNameClient)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Age)
@@ -55,6 +48,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Редактировать</a> |
+    <a asp-action="Index">Вернуться к списку</a>
 </div>

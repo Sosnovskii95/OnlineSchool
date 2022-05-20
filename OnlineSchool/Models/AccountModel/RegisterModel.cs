@@ -18,9 +18,7 @@ namespace OnlineSchool.Models.AccountModel
         [Required(ErrorMessage = "Заполните данное поле")]
         public string PasswordConfirm { get; set; }
 
-        public string FirstNameClient { get; set; }
-
-        public string LastNameClient { get; set; }
+        public string FirstLastNameClient { get; set; }
 
         public int Age { get; set; }
 

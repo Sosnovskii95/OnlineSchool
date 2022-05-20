@@ -1,65 +1,64 @@
 ﻿@model OnlineSchool.Models.DBModel.TestLesson
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Добавление";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>TestLesson</h4>
+<h1>Добавление</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="LessonId" class="control-label"></label>
                 <select asp-for="LessonId" class ="form-control" asp-items="ViewBag.LessonId"></select>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Question" class="control-label"></label>
                 <input asp-for="Question" class="form-control" />
                 <span asp-validation-for="Question" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="AnswerOne" class="control-label"></label>
                 <input asp-for="AnswerOne" class="form-control" />
                 <span asp-validation-for="AnswerOne" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="AnswerTwo" class="control-label"></label>
                 <input asp-for="AnswerTwo" class="form-control" />
                 <span asp-validation-for="AnswerTwo" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="AnswerThree" class="control-label"></label>
                 <input asp-for="AnswerThree" class="form-control" />
                 <span asp-validation-for="AnswerThree" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="AnswerFour" class="control-label"></label>
                 <input asp-for="AnswerFour" class="form-control" />
                 <span asp-validation-for="AnswerFour" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="AnswerFive" class="control-label"></label>
                 <input asp-for="AnswerFive" class="form-control" />
                 <span asp-validation-for="AnswerFive" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="RightAnswer" class="control-label"></label>
                 <input asp-for="RightAnswer" class="form-control" />
                 <span asp-validation-for="RightAnswer" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group mb-3">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Вернуться к списку</a>
 </div>
 
 @section Scripts {

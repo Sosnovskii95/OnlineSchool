@@ -98,8 +98,7 @@ namespace OnlineSchool.Controllers
                 Client client = new Client
                 {
                     EmailClient = registerModel.EmailClient,
-                    FirstNameClient = registerModel.FirstNameClient,
-                    LastNameClient = registerModel.LastNameClient,
+                    FirstLastNameClient = registerModel.FirstLastNameClient,
                     LoginClient = registerModel.LoginClient,
                     NumberPhone = registerModel.NumberPhone,
                     PasswordClient = registerModel.PasswordClient,

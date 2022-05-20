@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<OnlineSchool.Models.DBModel.Client>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Список клиентов";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Список клиентов</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Добавить клиента</a>
 </p>
 <table class="table">
     <thead>
@@ -22,10 +23,7 @@
                 @Html.DisplayNameFor(model => model.PasswordClient)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstNameClient)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastNameClient)
+                @Html.DisplayNameFor(model => model.FirstLastNameClient)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Age)
@@ -49,10 +47,7 @@
                 @Html.DisplayFor(modelItem => item.PasswordClient)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstNameClient)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastNameClient)
+                @Html.DisplayFor(modelItem => item.FirstLastNameClient)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Age)
@@ -61,9 +56,9 @@
                 @Html.DisplayFor(modelItem => item.NumberPhone)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Информация</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }
