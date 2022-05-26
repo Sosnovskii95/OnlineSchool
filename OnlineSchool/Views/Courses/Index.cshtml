@@ -6,9 +6,9 @@
 }
 
 <h1>Список курсов</h1>
-
+<hr />
 <p>
-    <a asp-action="Create">Добавить курс</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.DescriptionCourse)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageFileName)
+                @Html.DisplayNameFor(model => model.Image)
             </th>
             <th></th>
         </tr>
@@ -36,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.DescriptionCourse)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ImageFileName)
+                    @Html.DisplayFor(modelItem => item.Image.FileName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |

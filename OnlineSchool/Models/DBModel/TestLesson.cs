@@ -34,5 +34,7 @@ namespace OnlineSchool.Models.DBModel
 
         [Display(Name = "Правильный ответ. Укажите номер ответа, а не его значение")]
         public string RightAnswer { get; set; }
+
+        public string HintQuestion { get; set; }
     }
 }

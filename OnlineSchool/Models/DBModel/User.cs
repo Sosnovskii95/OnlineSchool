@@ -12,5 +12,11 @@ namespace OnlineSchool.Models.DBModel
         public string LoginUser { get; set; }
 
         public string PasswordUser { get; set; }
+
+        public bool ActiveUser { get; set; }
+
+        public int RoleId { get; set; }
+
+        public Role Role { get; set; }
     }
 }

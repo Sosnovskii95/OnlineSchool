@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OnlineSchool.Models.DBModel.TestLesson>
+﻿@model OnlineSchool.Models.DBModel.TestLesson
 
 @{
     ViewData["Title"] = "TestLesson";
@@ -6,25 +6,23 @@
 
 <h1>TestLesson</h1>
 <form asp-action="ResultTest">
-    @foreach (var item in Model)
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>@item.Question</label><br>
-                    <input type="checkbox" name="AnswerOne" value="@item.Id:1" />
-                    <span>@item.AnswerOne</span><br>
-                    <input type="checkbox" name="AnswerTwo" value="@item.Id:2" />
-                    <span>@item.AnswerTwo</span><br>
-                    <input type="checkbox" name="AnswerThree" value="@item.Id:3" />
-                    <span>@item.AnswerThree</span><br>
-                    <input type="checkbox" name="AnswerFour" value="@item.Id:4" />
-                    <span>@item.AnswerFour</span><br>
-                    <input type="checkbox" name="AnswerFive" value="@item.Id:5" />
-                    <span>@item.AnswerFive</span><br>
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <<input type="hidden" asp-for="Id" />
+                <label asp-for="Question" class="control-label"></label><br>
+                <input type="checkbox" name="AnswerOne" value="@Model.AnswerOne" />
+                <label asp-for="AnswerOne" class="control-label"></label><br>
+                <input type="checkbox" name="AnswerTwo" value="@Model.AnswerTwo" />
+                <label asp-for="AnswerTwo" class="control-label"></label><br>
+                <input type="checkbox" name="AnswerThree" value="@Model.AnswerThree" />
+                <label asp-for="AnswerThree" class="control-label"></label><br>
+                <input type="checkbox" name="AnswerFour" value="@Model.AnswerFour" />
+                <label asp-for="AnswerFour" class="control-label"></label><br>
+                <input type="checkbox" name="AnswerFive" value="@Model.AnswerFive" />
+                <label asp-for="AnswerFive" class="control-label"></label><br>
             </div>
         </div>
-    }
+    </div>
     <input type="submit" value="Отправить на проверку" />
 </form>

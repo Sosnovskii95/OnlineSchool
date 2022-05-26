@@ -1,13 +1,15 @@
 ﻿@model OnlineSchool.Models.DBModel.Course
 
 @{
-    ViewData["Title"] = "УДаление курса";
-    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    ViewData["Title"] = "Delete";
 }
 
-<h3>Вы действительно хотите удалить?</h3>
-<hr />
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
 <div>
+    <h4>Course</h4>
+    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TitleCourse)
@@ -22,16 +24,16 @@
             @Html.DisplayFor(model => model.DescriptionCourse)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageFileName)
+            @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageFileName)
+            @Html.DisplayFor(model => model.Image.Id)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Удалить" class="btn btn-danger" /> |
-        <a asp-action="Index">Вернуться к списку</a>
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
     </form>
 </div>

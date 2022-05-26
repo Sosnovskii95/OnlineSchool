@@ -15,8 +15,9 @@ namespace OnlineSchool.Models.DBModel
         public string DescriptionCourse { get; set; }
 
         [Display(Name = "Изображение")]
-        public string? ImageFileName { get; set; }
+        public int? ImageId { get; set; }
 
-        public string? ContentTypeFileName { get; set; }
+        [Display(Name = "Изображение")]
+        public Image? Image { get; set; }
     }
 }
