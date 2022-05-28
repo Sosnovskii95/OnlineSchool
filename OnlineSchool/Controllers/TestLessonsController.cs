@@ -57,7 +57,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LessonId,Question,AnswerOne,AnswerTwo,AnswerThree,AnswerFour,AnswerFive,RightAnswer")] TestLesson testLesson)
+        public async Task<IActionResult> Create([Bind("Id,LessonId,Question,AnswerOne,AnswerTwo,AnswerThree,AnswerFour,AnswerFive,RightAnswer,HintQuestion")] TestLesson testLesson)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LessonId,Question,AnswerOne,AnswerTwo,AnswerThree,AnswerFour,AnswerFive,RightAnswer")] TestLesson testLesson)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LessonId,Question,AnswerOne,AnswerTwo,AnswerThree,AnswerFour,AnswerFive,RightAnswer,HintQuestion")] TestLesson testLesson)
         {
             if (id != testLesson.Id)
             {

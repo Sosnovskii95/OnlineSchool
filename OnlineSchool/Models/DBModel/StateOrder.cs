@@ -7,6 +7,7 @@ namespace OnlineSchool.Models.DBModel
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Статус заказа")]
         public string TitleState { get; set; }
     }
 }

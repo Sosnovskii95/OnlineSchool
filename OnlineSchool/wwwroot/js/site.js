@@ -3,15 +3,22 @@
 
 // Write your JavaScript code.
 function priwie() {
-    var massFileName = document.getElementById("ImageFileName").files[0];
+    var massFileName = document.getElementById("nameFile").files[0];
     var outFile = document.getElementById("outFile");
     outFile.innerHTML = "";
     var img = document.createElement("img");
     img.setAttribute("class", "img-thumbnail");
 
+    var buttonDelete = document.createElement("input");
+    buttonDelete.setAttribute("type", "button");
+    buttonDelete.setAttribute("class", "btn btn-danger btn-sm");
+    buttonDelete.setAttribute("value", "Удалить");
+    buttonDelete.setAttribute("onclick", "delPriwie()");
+
     readFileFromPreview(img, massFileName);
 
     outFile.append(img);
+    outFile.append(buttonDelete);
 }
 
 function readFileFromPreview(img, file) {
@@ -26,4 +33,5 @@ function readFileFromPreview(img, file) {
 
 function delPriwie() {
     document.getElementById("outFile").innerHTML = "";
+    document.getElementById("nameFile").value = "";
 }

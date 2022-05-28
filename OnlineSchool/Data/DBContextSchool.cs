@@ -69,6 +69,16 @@ namespace OnlineSchool.Data
                 RoleId = 1,
                 ActiveUser = true
             });
+            modelBuilder.Entity<Client>().HasData(new Client
+            {
+                Id = 1,
+                EmailClient = "test@test",
+                FirstLastNameClient = "test",
+                LoginClient = "test",
+                PasswordClient = "test",
+                Age = 25,
+                NumberPhone = "37529333333"
+            });
         }
     }
 }

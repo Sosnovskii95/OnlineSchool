@@ -18,23 +18,24 @@ namespace OnlineSchool.Models.DBModel
         public string Question { get; set; }
 
         [Display(Name = "Ответ 1")]
-        public string AnswerOne { get; set; }
+        public string? AnswerOne { get; set; }
 
         [Display(Name = "Ответ 2")]
-        public string AnswerTwo { get; set; }
+        public string? AnswerTwo { get; set; }
 
         [Display(Name = "Ответ 3")]
-        public string AnswerThree { get; set; }
+        public string? AnswerThree { get; set; }
 
         [Display(Name = "Ответ 4")]
-        public string AnswerFour { get; set; }
+        public string? AnswerFour { get; set; }
 
         [Display(Name = "Ответ 5")]
-        public string AnswerFive { get; set; }
+        public string ?AnswerFive { get; set; }
 
         [Display(Name = "Правильный ответ. Укажите номер ответа, а не его значение")]
-        public string RightAnswer { get; set; }
+        public string? RightAnswer { get; set; }
 
-        public string HintQuestion { get; set; }
+        [Display(Name = "Подсказка")]
+        public string? HintQuestion { get; set; }
     }
 }

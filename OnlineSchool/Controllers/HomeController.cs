@@ -35,117 +35,69 @@ namespace OnlineSchool.Controllers
             return View();
         }
 
-        [HttpPost]
+
         public async Task<IActionResult> TestLesson(int idLesson)
         {
-            if (idLesson != null)
+            //Будем вытягивать из сессии
+            int idClient = 1;
+
+            List<ResultTestLesson> ResultTestLesson = await _context.ResultTestLessons.Where(i => i.ClientId == idClient).Where(s => s.TestLesson.LessonId == idLesson).ToListAsync();
+
+            if (ResultTestLesson !=null)
             {
-                Lesson lesson = await _context.Lessons.FindAsync(idLesson);
 
-                if (lesson != null)
+                TestLesson test = await _context.TestLessons.Where(s => !ResultTestLesson.Select(i => i.TestLessonId).Contains(s.Id)).FirstOrDefaultAsync();
+
+                if(test == null)
                 {
-                    var testLesson = await _context.TestLessons.Where(x => x.LessonId == lesson.Id).ToListAsync();
-
-                    if (testLesson != null)
-                    {
-                        return View(testLesson);
-                    }
+                    return RedirectToAction(nameof(ResultTest), new { idLesson = idLesson });
                 }
+
+                if (test != null)
+                {
+                    ViewData["IdLesson"] = idLesson;
+                    return View(test);
+                }
+            }
+            else
+            {
+                return NotFound();
             }
 
             return null;
         }
 
-        public async Task<IActionResult> ResultTest(List<string> AnswerOne, List<string> AnswerTwo,
-            List<string> AnswerThree, List<string> AnswerFour, List<string> AnswerFive)
+        public async Task<IActionResult> CheckTest(int id, int idLesson, string answer)
         {
             //сделать обработку ответов
-            if (await GetResult(AnswerOne) != null)
+            if (id != null)
             {
-                await _context.AddRangeAsync(await GetResult(AnswerOne));
-                await _context.SaveChangesAsync();
-            }
+                TestLesson test = await _context.TestLessons.FindAsync(id);
 
-            if(await GetResult(AnswerTwo) != null)
-            {
-                await _context.AddRangeAsync(await GetResult(AnswerTwo));
-                await _context.SaveChangesAsync();
-            }
-
-            if(await GetResult(AnswerThree) != null)
-            {
-                await _context.AddRangeAsync(await GetResult(AnswerThree));
-                await _context.SaveChangesAsync();
-            }
-            
-            if(await GetResult(AnswerFour) != null)
-            {
-                await _context.AddRangeAsync(await GetResult(AnswerFour));
-                await _context.SaveChangesAsync();
-            }
-            
-            if(await GetResult(AnswerFive) != null)
-            {
-                await _context.AddRangeAsync(await GetResult(AnswerFive));
-                await _context.SaveChangesAsync();
-            }
-
-            return View();
-
-
-
-            /*List<ResultTestLesson> resultTestLessons = new List<ResultTestLesson>();
-
-            foreach (var item in AnswerOne)
-            {
-                string[] idAndAnswer = item.Split(":");
-
-                TestLesson testLesson = await _context.TestLessons.FindAsync(Convert.ToInt32(idAndAnswer[0]));
-
-                if (testLesson != null)
+                if (test != null)
                 {
                     _context.Add(new ResultTestLesson
                     {
-                        //позже добавить клиента (его айди)
-                        TestLesson = testLesson,
-                        ValueAnswer = idAndAnswer[1]
-                    }
-                    );
-                    await _context.SaveChangesAsync();
-                }
-            }*/
-
-            return null;
-        }
-
-        private async Task<List<ResultTestLesson>> GetResult(List<string> answers)
-        {
-            List<ResultTestLesson> resultTestLessons = answers.Count > 0 ? new List<ResultTestLesson>() : null;
-
-            if(resultTestLessons == null)
-            {
-                return null;
-            }
-
-            foreach(var item in answers)
-            {
-                string[] idAndAnswer = item.Split(":");
-
-                TestLesson testLesson = await _context.TestLessons.FindAsync(Convert.ToInt32(idAndAnswer[0]));
-
-                if (testLesson != null)
-                {
-                    resultTestLessons.Add(new ResultTestLesson
-                    {
-                        //позже добавить клиента (его айди)
-                        TestLesson = testLesson,
-                        ValueAnswer = idAndAnswer[1]
+                        ClientId = 1,
+                        TestLesson = test,
+                        ValueAnswer = answer,
                     });
+
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(TestLesson), new { idLesson = idLesson });
                 }
             }
 
-            return resultTestLessons;
+            return View();
         }
+
+        public async Task<IActionResult> ResultTest(int idLesson)
+        {
+            return View();
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
