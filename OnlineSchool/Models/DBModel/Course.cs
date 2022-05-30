@@ -23,5 +23,7 @@ namespace OnlineSchool.Models.DBModel
 
         [Display(Name = "Изображение")]
         public Image? Image { get; set; }
+
+        public ICollection<Topic>? Topics { get; set; }
     }
 }

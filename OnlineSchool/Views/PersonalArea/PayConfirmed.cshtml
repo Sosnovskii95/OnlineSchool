@@ -1,0 +1,26 @@
+﻿@model OnlineSchool.Models.DBModel.Order
+
+@{
+    ViewData["Title"] = "PayConfirmed";
+    Layout = "~/Views/Shared/Client_Layout.cshtml";
+}
+
+<h1>Оплата завершена</h1>
+
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Client)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Client.FirstLastNameClient)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Course)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Course.TitleCourse)
+        </dd>
+    </dl>
+</div>
+<a asp-action="ShowCourse" asp-route-id="@Model.CourseId">Перейти к изучению</a>

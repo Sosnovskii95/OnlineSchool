@@ -1,0 +1,44 @@
+﻿@model OnlineSchool.Models.DBModel.Topic
+
+@{
+    ViewData["Title"] = "ShowTopic";
+    Layout = "~/Views/Shared/Client_Layout.cshtml";
+}
+
+<h1>ShowTopic</h1>
+
+<div>
+    <h4>Topic</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TitleTopic)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TitleTopic)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DescriptionTopic)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DescriptionTopic)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Course)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Course.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Image.Id)
+        </dd>
+    </dl>
+</div>
+@foreach (var item in Model.Lessons){
+    <div>
+        <a asp-action="ShowLesson" asp-route-id="@item.Id">@item.TitleLesson</a>
+    </div>
+}

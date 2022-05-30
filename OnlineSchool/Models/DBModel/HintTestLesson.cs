@@ -11,6 +11,10 @@ namespace OnlineSchool.Models.DBModel
 
         public Client? Client { get; set; }
 
+        public int NumberHint { get; set; }
+
         public int CountRigth { get; set; }
+
+        public double? ValueResult { get; set; }
     }
 }

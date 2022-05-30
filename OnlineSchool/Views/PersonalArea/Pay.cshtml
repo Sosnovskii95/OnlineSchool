@@ -1,0 +1,48 @@
+﻿@model OnlineSchool.Models.PayModel.PayViewModel
+@using OnlineSchool.Models.DBModel;
+@{
+    ViewData["Title"] = "Pay";
+    Layout = "~/Views/Shared/Client_Layout.cshtml";
+    Course course = ViewBag.Course;
+}
+
+<form asp-action="PayConfirmed" method="post">
+    <div class="row">
+        <div class="col-md-4 border-end">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="CardNumber" class="control-label"></label>
+                <input asp-for="CardNumber" class="form-control" />
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Moth" class="control-label"></label><br />
+                @Html.DropDownList("Moth", new SelectList(@ViewBag.Moth, "Value", "Text"))/
+                @Html.DropDownList("Year", new SelectList(@ViewBag.Year, "Value", "Text"))
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="CVV" class="control-label"></label>
+                <input asp-for="CVV" class="form-control" />
+                <span asp-validation-for="CVV" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" class="btn btn-primary" value="Оформить покупку" />
+            </div>
+        </div>
+        <div class="col-md-8">
+            <label>@course.TitleCourse</label>
+            <input type="hidden" name="Id" value="@course.Id" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
