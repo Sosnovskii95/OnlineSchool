@@ -1,17 +1,11 @@
-﻿@using System.Security.Claims
-@model OnlineSchool.Models.DBModel.Client
+﻿@model OnlineSchool.Models.DBModel.Client
 
 @{
-    ViewData["Title"] = "Редактирование клиента";
-    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
-    switch (role)
-    {
-        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
-
-    };
+    ViewData["Title"] = "Редактирование личных данных";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Редактирование клиента</h1>
+<h1>Редактирование личных данных</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -50,7 +44,6 @@
             </div>
             <div class="form-group mb-3">
                 <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
-                <a asp-action="Index" role="button" class="btn btn-secondary">Вернуться к списку</a>
             </div>
         </form>
     </div>

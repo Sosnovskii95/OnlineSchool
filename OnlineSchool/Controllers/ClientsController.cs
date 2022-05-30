@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using OnlineSchool.Models.DBModel;
 
 namespace OnlineSchool.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ClientsController : Controller
     {
         private readonly DBContextSchool _context;
@@ -22,9 +24,7 @@ namespace OnlineSchool.Controllers
         // GET: Clients
         public async Task<IActionResult> Index()
         {
-              return _context.Clients != null ? 
-                          View(await _context.Clients.ToListAsync()) :
-                          Problem("Entity set 'DBContextSchool.Clients'  is null.");
+            return View(await _context.Clients.ToListAsync());
         }
 
         // GET: Clients/Details/5
@@ -56,7 +56,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmailClient,LoginClient,PasswordClient,FirstNameClient,LastNameClient,Age,NumberPhone")] Client client)
+        public async Task<IActionResult> Create([Bind("Id,EmailClient,LoginClient,PasswordClient,FirstLastNameClient,Age,NumberPhone")] Client client)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmailClient,LoginClient,PasswordClient,FirstNameClient,LastNameClient,Age,NumberPhone")] Client client)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EmailClient,LoginClient,PasswordClient,FirstLastNameClient,Age,NumberPhone")] Client client)
         {
             if (id != client.Id)
             {
@@ -150,14 +150,14 @@ namespace OnlineSchool.Controllers
             {
                 _context.Clients.Remove(client);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ClientExists(int id)
         {
-          return (_context.Clients?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Clients?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

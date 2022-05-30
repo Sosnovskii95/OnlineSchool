@@ -19,14 +19,6 @@ namespace OnlineSchool.Models.DBModel
 
         public User? User { get; set; }
 
-        public int StateOrderId { get; set; }
-
-        public StateOrder? StateOrder { get; set; }
-
-        public int PayMethodId { get; set; }
-
-        public PayMethod? PayMethod { get; set; }
-
         public int AccessId { get; set; }
 
         public Access? Access { get; set; }

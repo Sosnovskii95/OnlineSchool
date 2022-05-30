@@ -1,11 +1,18 @@
-﻿@model OnlineSchool.Models.DBModel.User
+﻿@using System.Security.Claims
+@model OnlineSchool.Models.DBModel.User
 
 @{
-    ViewData["Title"] = "Удаление";
-    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    ViewData["Title"] = "Удаление пользователя";
+    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    switch (role)
+    {
+        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
+
+    };
 }
 
-<h3>Вы действительно хотите удалить?</h3>
+<h1>Вы действительно хотите удалить?</h1>
+<hr />
 <div>
     <dl class="row">
         <dt class = "col-sm-2">
@@ -26,11 +33,25 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PasswordUser)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ActiveUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ActiveUser)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Role.Id)
+        </dd>
     </dl>
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Удалить" class="btn btn-danger" /> |
-        <a asp-action="Index">Вернуться к списку</a>
-    </form>
+ <div class="form-group mb-3">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Удалить" class="btn btn-danger" />
+            <a asp-action="Index" role="button" class="btn btn-secondary">Вернуться к списку</a>
+        </form>
+    </div>
 </div>

@@ -1,8 +1,14 @@
-﻿@model OnlineSchool.Models.DBModel.Lesson
+﻿@using System.Security.Claims
+@model OnlineSchool.Models.DBModel.Lesson
 
 @{
     ViewData["Title"] = "Добавление урока";
-    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    switch (role)
+    {
+        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
+        case "teacher": Layout = "~/Views/Shared/Teacher_Layout.cshtml"; break;
+    };
 }
 
 <h1>Добавление урока</h1>
@@ -32,7 +38,7 @@
             </div>
             <div class="form-group mb-3">
                 <input type="submit" value="Добавить" class="btn btn-primary" />
-                <a asp-action="Index" role="button" class="btn btn-outline-secondary">Вернуться к списку</a>
+                <a asp-action="Index" role="button" class="btn btn-secondary">Вернуться к списку</a>
             </div>
         </form>
     </div>
@@ -48,10 +54,10 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
-
-<script type="text/javascript">
-    function getVideo(url) {
-        document.getElementById("frame").setAttribute("src", url.replace("watch?v=", "embed/"));
     }
-</script>
+
+    <script type="text/javascript">
+        function getVideo(url) {
+            document.getElementById("frame").setAttribute("src", url.replace("watch?v=", "embed/"));
+        }
+    </script>

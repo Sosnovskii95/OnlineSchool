@@ -22,7 +22,8 @@ namespace OnlineSchool.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            var dBContextSchool = _context.Users.Include(u => u.Role);
+            return View(await dBContextSchool.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -34,6 +35,7 @@ namespace OnlineSchool.Controllers
             }
 
             var user = await _context.Users
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -46,6 +48,7 @@ namespace OnlineSchool.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "TitleRole");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmailUser,LoginUser,PasswordUser")] User user)
+        public async Task<IActionResult> Create([Bind("Id,EmailUser,LoginUser,PasswordUser,ActiveUser,RoleId")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace OnlineSchool.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "TitleRole", user.RoleId);
             return View(user);
         }
 
@@ -78,6 +82,7 @@ namespace OnlineSchool.Controllers
             {
                 return NotFound();
             }
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "TitleRole", user.RoleId);
             return View(user);
         }
 
@@ -86,7 +91,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmailUser,LoginUser,PasswordUser")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EmailUser,LoginUser,PasswordUser,ActiveUser,RoleId")] User user)
         {
             if (id != user.Id)
             {
@@ -113,6 +118,7 @@ namespace OnlineSchool.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "TitleRole", user.RoleId);
             return View(user);
         }
 
@@ -125,6 +131,7 @@ namespace OnlineSchool.Controllers
             }
 
             var user = await _context.Users
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -148,14 +155,14 @@ namespace OnlineSchool.Controllers
             {
                 _context.Users.Remove(user);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool UserExists(int id)
         {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

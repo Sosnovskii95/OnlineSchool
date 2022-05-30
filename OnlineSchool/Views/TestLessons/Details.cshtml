@@ -1,73 +1,77 @@
-﻿@model OnlineSchool.Models.DBModel.TestLesson
+﻿@using System.Security.Claims
+@model OnlineSchool.Models.DBModel.TestLesson
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    ViewData["Title"] = "Информация";
+    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    switch (role)
+    {
+        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
+        case "teacher": Layout = "~/Views/Shared/Teacher_Layout.cshtml"; break;
+    };
 }
 
-<h1>Details</h1>
-
+<h1>Информация</h1>
+<hr />
 <div>
-    <h4>TestLesson</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Lesson)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Lesson.Id)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Question)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Question)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AnswerOne)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AnswerOne)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AnswerTwo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AnswerTwo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AnswerThree)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AnswerThree)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AnswerFour)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AnswerFour)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.AnswerFive)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.AnswerFive)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RightAnswer)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RightAnswer)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.HintQuestion)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.HintQuestion)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="form-group mb-3">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" role="button" class="btn btn-outline-primary">Редактировать</a>
+    <a asp-action="Index" role="button" class="btn btn-outline-secondary">Вернуться к списку</a>
 </div>

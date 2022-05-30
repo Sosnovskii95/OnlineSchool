@@ -1,55 +1,63 @@
-﻿@model IEnumerable<OnlineSchool.Models.DBModel.Lesson>
+﻿@using System.Security.Claims
+@model IEnumerable<OnlineSchool.Models.DBModel.Lesson>
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    switch (role)
+    {
+        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
+        case "teacher": Layout = "~/Views/Shared/Teacher_Layout.cshtml"; break;
+    };
 }
 
 <h1>Список уроков</h1>
-
+<hr />
 <p>
-    <a asp-action="Create">Добавить урок</a>
+    <a asp-action="Create" role="button" class="btn btn-primary">Добавить урок</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TitleLesson)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DescriptionLesson)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.URLVideo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Topic)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="table-responsive">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TitleLesson)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DescriptionLesson)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.URLVideo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Topic.Id)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Информация</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удаление</a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.TitleLesson)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DescriptionLesson)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.URLVideo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Topic)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TitleLesson)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DescriptionLesson)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.URLVideo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Topic.Id)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" role="button" class="btn btn-outline-secondary">Редактировать</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" role="button" class="btn btn-outline-info">Информация</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" role="button" class="btn btn-outline-danger">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

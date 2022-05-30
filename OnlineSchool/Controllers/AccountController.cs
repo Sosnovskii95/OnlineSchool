@@ -30,11 +30,17 @@ namespace OnlineSchool.Controllers
             {
                 if (loginModel.InvateAdmin)
                 {
-                    User user = await _context.Users.Where(e => e.EmailUser.Equals(loginModel.Email) && e.PasswordUser.Equals(loginModel.Password)).FirstOrDefaultAsync();
+                    User user = await _context.Users.Where(e => e.EmailUser.Equals(loginModel.Email) && e.PasswordUser.Equals(loginModel.Password)).Include(r => r.Role).FirstOrDefaultAsync();
 
-                    if(user != null)
+                    if (user != null)
                     {
-                        await Authenticate(user.Id, "user");
+                        await Authenticate(user.Id, user.Role.ValueRole);
+
+                        switch (user.Role.ValueRole)
+                        {
+                            case "admin": return RedirectToAction(nameof(Index), "Users");
+                            case "teacher": return RedirectToAction(nameof(Index), "Lessons");
+                        }
 
                         return null;
                     }
@@ -46,11 +52,11 @@ namespace OnlineSchool.Controllers
                 {
                     Client client = await _context.Clients.Where(e => e.EmailClient.Equals(loginModel.Email) && e.PasswordClient.Equals(loginModel.Password)).FirstOrDefaultAsync();
 
-                    if(client != null)
+                    if (client != null)
                     {
                         await Authenticate(client.Id, "client");
 
-                        return null;
+                        return RedirectToAction(nameof(Index), "PersonalArea");
                     }
 
                     ModelState.AddModelError("", "Клиента с такими данными не сущестует");
@@ -73,7 +79,7 @@ namespace OnlineSchool.Controllers
             {
                 var email = await _context.Clients.FirstOrDefaultAsync(e => e.EmailClient.Equals(registerModel.EmailClient));
 
-                if(email != null)
+                if (email != null)
                 {
                     ModelState.AddModelError("EmailClient", "Email занят");
                     return View(registerModel);
@@ -81,7 +87,7 @@ namespace OnlineSchool.Controllers
 
                 var login = await _context.Clients.FirstOrDefaultAsync(e => e.LoginClient.Equals(registerModel.LoginClient));
 
-                if(login != null)
+                if (login != null)
                 {
                     ModelState.AddModelError("LoginClient", "Login занят");
                     return View(registerModel);
@@ -89,7 +95,7 @@ namespace OnlineSchool.Controllers
 
                 var phone = await _context.Clients.FirstOrDefaultAsync(e => e.NumberPhone.Equals(registerModel.NumberPhone));
 
-                if(phone != null)
+                if (phone != null)
                 {
                     ModelState.AddModelError("NumberPhone", "Телефон уже используется");
                     return View(registerModel);
@@ -114,6 +120,13 @@ namespace OnlineSchool.Controllers
             }
 
             return View(registerModel);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction(nameof(Login));
         }
 
         private async Task Authenticate(int idClientUser, string titleRole)

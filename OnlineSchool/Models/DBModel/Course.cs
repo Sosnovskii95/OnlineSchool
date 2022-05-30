@@ -14,6 +14,10 @@ namespace OnlineSchool.Models.DBModel
         [MaxLength(5000)]
         public string DescriptionCourse { get; set; }
 
+        [Display(Name = "Стоимость")]
+        [Range(typeof(decimal), "0,0", "100000,", ErrorMessage = "Стоимость")]
+        public decimal Price { get; set; }
+
         [Display(Name = "Изображение")]
         public int? ImageId { get; set; }
 

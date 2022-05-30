@@ -1,11 +1,17 @@
-﻿@model OnlineSchool.Models.DBModel.User
+﻿@using System.Security.Claims
+@model OnlineSchool.Models.DBModel.User
 
 @{
-    ViewData["Title"] = "Редактирование";
-    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    ViewData["Title"] = "Редактирование пользователя";
+    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    switch (role)
+    {
+        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
+
+    };
 }
 
-<h1>Редактирование</h1>
+<h1>Редактирование пользователя</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -27,15 +33,22 @@
                 <input asp-for="PasswordUser" class="form-control" />
                 <span asp-validation-for="PasswordUser" class="text-danger"></span>
             </div>
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ActiveUser" /> @Html.DisplayNameFor(model => model.ActiveUser)
+                </label>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="RoleId" class="control-label"></label>
+                <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
+            </div>
             <div class="form-group mb-3">
                 <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+                <a asp-action="Index" role="button" class="btn btn-secondary">Вернуться к списку</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Вернкуться к списку</a>
 </div>
 
 @section Scripts {

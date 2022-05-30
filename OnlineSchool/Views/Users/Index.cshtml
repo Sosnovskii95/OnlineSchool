@@ -1,48 +1,69 @@
-﻿@model IEnumerable<OnlineSchool.Models.DBModel.User>
+﻿@using System.Security.Claims
+@model IEnumerable<OnlineSchool.Models.DBModel.User>
 
 @{
     ViewData["Title"] = "Список пользователей";
-    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    switch (role)
+    {
+        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
+
+    };
 }
 
 <h1>Список пользователей</h1>
 <hr />
 <p>
-    <a asp-action="Create">Добавить пользователя</a>
+    <a asp-action="Create" role="button" class="btn btn-primary">Добавить пользователя</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EmailUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoginUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PasswordUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoginUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordUser)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Информация</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Удаление</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmailUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoginUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PasswordUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActiveUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Role)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LoginUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PasswordUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActiveUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role.TitleRole)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" role="button" class="btn btn-outline-secondary">Редактировать</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" role="button" class="btn btn-outline-info">Информация</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" role="button" class="btn btn-outline-danger">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

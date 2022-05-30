@@ -22,7 +22,7 @@ namespace OnlineSchool.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var dBContextSchool = _context.Orders.Include(o => o.Access).Include(o => o.Client).Include(o => o.Course).Include(o => o.PayMethod).Include(o => o.StateOrder).Include(o => o.User);
+            var dBContextSchool = _context.Orders.Include(o => o.Access).Include(o => o.Client).Include(o => o.Course).Include(o => o.User);
             return View(await dBContextSchool.ToListAsync());
         }
 
@@ -38,8 +38,6 @@ namespace OnlineSchool.Controllers
                 .Include(o => o.Access)
                 .Include(o => o.Client)
                 .Include(o => o.Course)
-                .Include(o => o.PayMethod)
-                .Include(o => o.StateOrder)
                 .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
@@ -56,8 +54,6 @@ namespace OnlineSchool.Controllers
             ViewData["AccessId"] = new SelectList(_context.Accesses, "Id", "TitleAccess");
             ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id");
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "TitleCourse");
-            ViewData["PayMethodId"] = new SelectList(_context.PayMethods, "Id", "TitlePayMethod");
-            ViewData["StateOrderId"] = new SelectList(_context.StateOrders, "Id", "TitleState");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
@@ -78,8 +74,6 @@ namespace OnlineSchool.Controllers
             ViewData["AccessId"] = new SelectList(_context.Accesses, "Id", "TitleAccess", order.AccessId);
             ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", order.ClientId);
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "TitleCourse", order.CourseId);
-            ViewData["PayMethodId"] = new SelectList(_context.PayMethods, "Id", "TitlePayMethod", order.PayMethodId);
-            ViewData["StateOrderId"] = new SelectList(_context.StateOrders, "Id", "TitleState", order.StateOrderId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
             return View(order);
         }
@@ -100,8 +94,6 @@ namespace OnlineSchool.Controllers
             ViewData["AccessId"] = new SelectList(_context.Accesses, "Id", "TitleAccess", order.AccessId);
             ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", order.ClientId);
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "TitleCourse", order.CourseId);
-            ViewData["PayMethodId"] = new SelectList(_context.PayMethods, "Id", "TitlePayMethod", order.PayMethodId);
-            ViewData["StateOrderId"] = new SelectList(_context.StateOrders, "Id", "TitleState", order.StateOrderId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
             return View(order);
         }
@@ -141,10 +133,7 @@ namespace OnlineSchool.Controllers
             ViewData["AccessId"] = new SelectList(_context.Accesses, "Id", "TitleAccess", order.AccessId);
             ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", order.ClientId);
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "TitleCourse", order.CourseId);
-            ViewData["PayMethodId"] = new SelectList(_context.PayMethods, "Id", "TitlePayMethod", order.PayMethodId);
-            ViewData["StateOrderId"] = new SelectList(_context.StateOrders, "Id", "TitleState", order.StateOrderId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
-            return View(order);
             return View(order);
         }
 
@@ -160,8 +149,7 @@ namespace OnlineSchool.Controllers
                 .Include(o => o.Access)
                 .Include(o => o.Client)
                 .Include(o => o.Course)
-                .Include(o => o.PayMethod)
-                .Include(o => o.StateOrder)
+                .Include(o => o.User)
                 .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
@@ -186,14 +174,14 @@ namespace OnlineSchool.Controllers
             {
                 _context.Orders.Remove(order);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(int id)
         {
-          return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

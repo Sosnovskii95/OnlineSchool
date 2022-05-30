@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using OnlineSchool.Models.DBModel;
 
 namespace OnlineSchool.Controllers
 {
+    [Authorize(Roles = "admin, metodist")]
     public class CoursesController : Controller
     {
         private readonly DBContextSchool _context;
@@ -58,7 +60,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TitleCourse,DescriptionCourse")] Course course, IFormFile? nameFile)
+        public async Task<IActionResult> Create([Bind("Id,TitleCourse,DescriptionCourse, Price")] Course course, IFormFile? nameFile)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +121,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TitleCourse,DescriptionCourse")] Course course, IFormFile? nameFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TitleCourse,DescriptionCourse,Price")] Course course, IFormFile? nameFile)
         {
             if (id != course.Id)
             {

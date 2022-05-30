@@ -7,10 +7,10 @@ namespace OnlineSchool.Models.DBModel
         [Key]
         public int Id { get; set; }
 
-        [Display(Name = "")]
+        [Display(Name = "Доступ")]
         public string TitleAccess { get; set; }
 
-        [Display(Name = "")]
+        [Display(Name = "Значение доступа")]
         public bool ValueAccess { get; set; }
     }
 }

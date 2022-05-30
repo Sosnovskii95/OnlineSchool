@@ -1,15 +1,19 @@
-﻿@model OnlineSchool.Models.DBModel.Topic
+﻿@using System.Security.Claims
+@model OnlineSchool.Models.DBModel.Topic
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+    ViewData["Title"] = "Информация";
+    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    switch (role)
+    {
+        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
+        case "metodist" : Layout = "~/Views/Shared/Metodist_Layout.cshtml"; break;
+    };
 }
 
-<h1>Details</h1>
-
+<h1>Информация</h1>
+<hr />
 <div>
-    <h4>Topic</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TitleTopic)
@@ -37,7 +41,7 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="form-group mb-3">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" role="button" class="btn btn-outline-primary">Редактировать</a>
+    <a asp-action="Index" role="button" class="btn btn-outline-secondary">Вернуться к списку</a>
 </div>
