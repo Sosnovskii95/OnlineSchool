@@ -11,6 +11,7 @@
             <div class="form-group">
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" name="IdLesson" value="@ViewBag.IdLesson" />
+                <input type="hidden" name="Hint" value="@ViewBag.Hint" />
                 <label asp-for="Question" class="control-label">@Model.Question</label><br>
                 @if (!String.IsNullOrEmpty(Model.AnswerOne))
                 {

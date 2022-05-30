@@ -32,30 +32,38 @@ namespace OnlineSchool.Controllers
         public async Task<IActionResult> Test()
         {
             ViewData["Lesson"] = new SelectList(_context.Lessons, "Id", "TitleLesson");
+            HintTestLesson hintTestLesson = new HintTestLesson { ClientId = 1 };
+
+            _context.Add(hintTestLesson);
+            await _context.SaveChangesAsync();
+
+            ViewData["Hint"] = hintTestLesson.Id;
+
             return View();
         }
 
 
-        public async Task<IActionResult> TestLesson(int idLesson)
+        public async Task<IActionResult> TestLesson(int idLesson, int hint)
         {
-            //Будем вытягивать из сессии
-            int idClient = 1;
+            //Будем вытягивать из сесси
 
-            List<ResultTestLesson> ResultTestLesson = await _context.ResultTestLessons.Where(i => i.ClientId == idClient).Where(s => s.TestLesson.LessonId == idLesson).ToListAsync();
 
-            if (ResultTestLesson !=null)
+            List<ResultTestLesson> ResultTestLesson = await _context.ResultTestLessons.Where(i => i.HintTestLessonId == hint).Where(s => s.TestLesson.LessonId == idLesson).ToListAsync();
+
+            if (ResultTestLesson != null)
             {
 
                 TestLesson test = await _context.TestLessons.Where(s => !ResultTestLesson.Select(i => i.TestLessonId).Contains(s.Id)).FirstOrDefaultAsync();
 
-                if(test == null)
+                if (test == null)
                 {
-                    return RedirectToAction(nameof(ResultTest), new { idLesson = idLesson });
+                    return RedirectToAction(nameof(ResultTest), new { idLesson = idLesson, hint = hint });
                 }
 
                 if (test != null)
                 {
                     ViewData["IdLesson"] = idLesson;
+                    ViewData["Hint"] = hint;
                     return View(test);
                 }
             }
@@ -67,7 +75,7 @@ namespace OnlineSchool.Controllers
             return null;
         }
 
-        public async Task<IActionResult> CheckTest(int id, int idLesson, string answer)
+        public async Task<IActionResult> CheckTest(int id, int idLesson, int hint, string answer)
         {
             //сделать обработку ответов
             if (id != null)
@@ -76,24 +84,46 @@ namespace OnlineSchool.Controllers
 
                 if (test != null)
                 {
-                    _context.Add(new ResultTestLesson
+                    ResultTestLesson resultTestLesson = new ResultTestLesson
                     {
-                        ClientId = 1,
+                        HintTestLessonId = hint,
                         TestLesson = test,
-                        ValueAnswer = answer,
-                    });
+                        ValueAnswer = answer
+                    };
 
+                    if (test.RightAnswer.Equals(answer))
+                    {
+                        resultTestLesson.ResultAnswer = true;
+
+                        var hintTest = await _context.HintTestLessons.FindAsync(hint);
+
+                        hintTest.CountRigth += 1;
+                    }
+                    else
+                    {
+                        resultTestLesson.ResultAnswer = false;
+                    }
+
+                    _context.Add(resultTestLesson);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction(nameof(TestLesson), new { idLesson = idLesson });
+                    return RedirectToAction(nameof(TestLesson), new { idLesson = idLesson, hint = hint });
                 }
             }
 
             return View();
         }
 
-        public async Task<IActionResult> ResultTest(int idLesson)
+        public async Task<IActionResult> ResultTest(int idLesson, int hint)
         {
+            var hintTest = await _context.HintTestLessons.FirstOrDefaultAsync(i => i.Id == hint);
+
+            int countAll = await _context.TestLessons.Where(i => i.LessonId == idLesson).CountAsync();
+
+            var op = Convert.ToDouble(hintTest.CountRigth / countAll * 100);
+
+            ViewData["Progress"] = Convert.ToDouble(hintTest.CountRigth / countAll * 100);
+
             return View();
         }
 

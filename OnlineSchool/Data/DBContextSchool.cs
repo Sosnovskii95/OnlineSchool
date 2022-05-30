@@ -27,6 +27,8 @@ namespace OnlineSchool.Data
 
         public DbSet<Image> Images { get; set; }
 
+        public DbSet<HintTestLesson> HintTestLessons { get; set; }
+
         public DBContextSchool(DbContextOptions<DBContextSchool> options) : base(options)
         {
             Database.EnsureCreated();

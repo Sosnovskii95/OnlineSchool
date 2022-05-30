@@ -7,11 +7,11 @@ namespace OnlineSchool.Models.DBModel
         [Key]
         public int Id { get; set; }
 
-        [Display(Name = "Клиент")]
-        public int? ClientId { get; set; }
+        [Display(Name = "Попытка")]
+        public int HintTestLessonId { get; set; }
 
-        [Display(Name = "Клиент")]
-        public Client? Client { get; set; }
+        [Display(Name = "Попытка")]
+        public HintTestLesson? HintTestLesson { get; set; }
 
         [Display(Name = "Номер теста")]
         public int TestLessonId { get; set; }
@@ -21,5 +21,7 @@ namespace OnlineSchool.Models.DBModel
 
         [Display(Name = "Значение ответа")]
         public string ValueAnswer { get; set; }
+
+        public bool ResultAnswer { get; set; }
     }
 }
