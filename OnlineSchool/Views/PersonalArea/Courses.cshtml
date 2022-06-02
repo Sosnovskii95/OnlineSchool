@@ -11,7 +11,7 @@
     <div class="row border">
         <label>@item.TitleCourse</label>
         <div class="col-md-4 mb-3">
-            <img class="img-thumbnail" src="@Url.Action("GetImage", "PersonalArea", new {id = item.Id})" />
+            <img class="img-thumbnail" src="@Url.Action("GetImage", "PersonalArea", new {id = item.Id, typeImage="course"})" />
         </div>
         <div class="col-md-8 mb-3">
             <label>@item.DescriptionCourse</label>

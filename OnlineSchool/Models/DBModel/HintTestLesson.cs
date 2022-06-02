@@ -15,6 +15,8 @@ namespace OnlineSchool.Models.DBModel
 
         public int CountRigth { get; set; }
 
-        public double? ValueResult { get; set; }
+        public int ValueResult { get; set; }
+
+        public ICollection<ResultTestLesson>? ResultTestLessons { get; set; }
     }
 }

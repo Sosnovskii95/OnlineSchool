@@ -19,8 +19,24 @@ namespace OnlineSchool.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            Client client = await GetAuthorize(HttpContext);
+
+            if (client != null)
+            {
+                var hintLesson = await _context.HintTestLessons.Where(i => i.ClientId == client.Id)
+                    .Where(j => j.ValueResult != null)
+                    .Include(t => t.ResultTestLessons)
+                    .ThenInclude(s => s.TestLesson)
+                    .ThenInclude(s => s.Lesson)
+                    .ThenInclude(c => c.Topic)
+                    .ThenInclude(c => c.Course)
+                    .ToListAsync();
+
+                return View(hintLesson);
+            }
+
             return View();
         }
 
@@ -65,14 +81,14 @@ namespace OnlineSchool.Controllers
 
         public async Task<IActionResult> ShowCourse(int id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             Course course = await _context.Courses.Include(c => c.Topics).Include(i => i.Image).FirstOrDefaultAsync(i => i.Id == id);
 
-            if(course == null)
+            if (course == null)
             {
                 return NotFound();
             }
@@ -82,14 +98,14 @@ namespace OnlineSchool.Controllers
 
         public async Task<IActionResult> ShowTopic(int id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            Topic topic = await _context.Topics.Include(l=>l.Lessons).Include(i => i.Image).FirstOrDefaultAsync(i => i.Id == id);
+            Topic topic = await _context.Topics.Include(l => l.Lessons).Include(i => i.Image).FirstOrDefaultAsync(i => i.Id == id);
 
-            if(topic == null)
+            if (topic == null)
             {
                 return NotFound();
             }
@@ -99,19 +115,123 @@ namespace OnlineSchool.Controllers
 
         public async Task<IActionResult> ShowLesson(int id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            Lesson lesson = await _context.Lessons.FindAsync(id);
+            var lesson = await _context.Lessons.Include(t => t.TestLessons).FirstOrDefaultAsync(i => i.Id == id);
 
-            if(lesson == null)
+            if (lesson == null)
             {
                 return NotFound();
             }
 
             return View(lesson);
+        }
+
+        public async Task<IActionResult> RunTest(int idLesson, int? hint)
+        {
+            Client client = await GetAuthorize(HttpContext);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            HintTestLesson hintTestLesson;
+
+            if (hint.HasValue)
+            {
+                hintTestLesson = await _context.HintTestLessons.Where(c => c.ClientId == client.Id).Where(h => h.Id == hint.Value).FirstOrDefaultAsync();
+            }
+            else
+            {
+                hintTestLesson = new HintTestLesson
+                {
+                    ClientId = client.Id,
+                    NumberHint = await _context.HintTestLessons.Where(i => i.ClientId == 1).CountAsync() + 1
+                };
+                _context.Add(hintTestLesson);
+                await _context.SaveChangesAsync();
+            }
+
+            var result = await _context.ResultTestLessons.Where(h => h.HintTestLessonId == hintTestLesson.Id).ToListAsync();
+
+            if (result != null)
+            {
+                TestLesson test = await _context.TestLessons.Where(s => !result.Select(i => i.TestLessonId).Contains(s.Id)).Where(j => j.LessonId == idLesson).FirstOrDefaultAsync();
+
+                if (test == null)
+                {
+                    return RedirectToAction(nameof(ResultTest), new { idLesson = idLesson, hint = hintTestLesson.Id });
+                }
+
+                if (test != null)
+                {
+                    ViewData["IdLesson"] = idLesson;
+                    ViewData["Hint"] = hintTestLesson.Id;
+                    return View(test);
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<IActionResult> CheckTest(int id, int idLesson, int hintId, string answer)
+        {
+            //сделать обработку ответов
+            if (id != null)
+            {
+                TestLesson test = await _context.TestLessons.FindAsync(id);
+
+                if (test != null)
+                {
+                    ResultTestLesson resultTestLesson = new ResultTestLesson
+                    {
+                        HintTestLessonId = hintId,
+                        TestLesson = test,
+                        ValueAnswer = answer
+                    };
+
+                    if (test.RightAnswer.Equals(answer))
+                    {
+                        resultTestLesson.ResultAnswer = true;
+
+                        var hintTest = await _context.HintTestLessons.FindAsync(hintId);
+
+                        hintTest.CountRigth += 1;
+                    }
+                    else
+                    {
+                        resultTestLesson.ResultAnswer = false;
+                    }
+
+                    _context.Add(resultTestLesson);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(RunTest), new { idLesson = idLesson, hint = hintId });
+                }
+            }
+
+            return View();
+        }
+
+
+        public async Task<IActionResult> ResultTest(int idLesson, int hint)
+        {
+            var hintTest = await _context.HintTestLessons.FirstOrDefaultAsync(i => i.Id == hint);
+
+            int countAll = await _context.TestLessons.Where(i => i.LessonId == idLesson).CountAsync();
+
+            hintTest.ValueResult = Convert.ToInt32(Math.Round(Convert.ToDouble(hintTest.CountRigth) / Convert.ToDouble(countAll) * 100));
+
+            _context.Update(hintTest);
+            await _context.SaveChangesAsync();
+
+            ViewData["Progress"] = hintTest.ValueResult;
+
+            return View();
         }
 
         public async Task<IActionResult> Pay(int id)
@@ -187,19 +307,35 @@ namespace OnlineSchool.Controllers
             return NotFound();
         }
 
-        public async Task<VirtualFileResult> GetImage(int id)
+        public async Task<VirtualFileResult> GetImage(int id, string typeImage)
         {
             if (id != null)
             {
-                Course course = await _context.Courses.Include(i => i.Image).FirstOrDefaultAsync(i => i.Id == id);
-
-                if (course.Image != null)
+                switch (typeImage)
                 {
-                    string content = "/Course/" + course.Id.ToString();
-                    return File(Path.Combine("~", content, course.Image.FileName), course.Image.ContentType, course.Image.FileName);
-                }
+                    case "course":
+                        {
+                            Course course = await _context.Courses.Include(i => i.Image).FirstOrDefaultAsync(i => i.Id == id);
 
-                return null;
+                            if (course.Image != null)
+                            {
+                                string content = "/Course/" + course.Id.ToString();
+                                return File(Path.Combine("~", content, course.Image.FileName), course.Image.ContentType, course.Image.FileName);
+                            }
+                            break;
+                        }
+                    case "topic":
+                        {
+                            Topic topic = await _context.Topics.Include(i => i.Image).FirstOrDefaultAsync(i => i.Id == id);
+
+                            if (topic.Image != null)
+                            {
+                                string content = "/Topic/" + topic.Id.ToString();
+                                return File(Path.Combine("~", content, topic.Image.FileName), topic.Image.ContentType, topic.Image.FileName);
+                            }
+                            break;
+                        }
+                }
             }
 
             return null;

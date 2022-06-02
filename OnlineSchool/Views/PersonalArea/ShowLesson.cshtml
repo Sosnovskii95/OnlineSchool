@@ -11,32 +11,41 @@
     <h4>Lesson</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TitleLesson)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TitleLesson)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DescriptionLesson)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DescriptionLesson)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.URLVideo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.URLVideo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Topic)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Topic.Id)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="" asp-route-id="@Model.Id">Начать тест</a>
-</div>
+@if (Model.TestLessons.Count() > 0)
+{
+    <div>
+        <a asp-action="RunTest" asp-route-idLesson="@Model.Id">Начать тест</a>
+    </div>
+}
+else
+{
+    <div>
+        <label>Тесты скоро появяться</label>
+    </div>
+}

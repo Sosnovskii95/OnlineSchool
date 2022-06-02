@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<OnlineSchool.Models.DBModel.HintTestLesson>
+@using OnlineSchool.Models.DBModel;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Client_Layout.cshtml";
@@ -6,3 +7,26 @@
 
 <h1>Index</h1>
 
+<progress max="100" value="25"></progress>
+
+@{
+}
+
+@foreach (var hint in Model)
+{
+    @hint.NumberHint
+    int i = 0;
+    foreach (var result in hint.ResultTestLessons)
+    {
+        if (i == 0)
+        {
+            <div>
+                <label>Курс @result.TestLesson.Lesson.Topic.Course.TitleCourse</label>
+                <label>Тема @result.TestLesson.Lesson.Topic.TitleTopic</label>
+                <label>Урока: @result.TestLesson.Lesson.TitleLesson</label>
+                <progress max="100" value="@hint.ValueResult"></progress>
+            </div>
+            i++;
+        }
+    }
+}

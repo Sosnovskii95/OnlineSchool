@@ -33,7 +33,7 @@
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image.Id)
+            <img class="img-thumbnail" src="@Url.Action("GetImage", "PersonalArea", new {id = Model.Id, typeImage="topic"})" />
         </dd>
     </dl>
 </div>

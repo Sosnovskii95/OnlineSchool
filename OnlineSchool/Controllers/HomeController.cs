@@ -120,7 +120,7 @@ namespace OnlineSchool.Controllers
 
         public async Task<IActionResult> ResultTest(int idLesson, int hint)
         {
-            var hintTest = await _context.HintTestLessons.FirstOrDefaultAsync(i => i.Id == hint);
+            /*var hintTest = await _context.HintTestLessons.FirstOrDefaultAsync(i => i.Id == hint);
 
             int countAll = await _context.TestLessons.Where(i => i.LessonId == idLesson).CountAsync();
 
@@ -130,7 +130,7 @@ namespace OnlineSchool.Controllers
             await _context.SaveChangesAsync();
 
             ViewData["Progress"] = Convert.ToDouble(hintTest.CountRigth) / Convert.ToDouble(countAll) * 100;
-
+            */
             return View();
         }
 

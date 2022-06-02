@@ -11,6 +11,7 @@ namespace OnlineSchool.Models.DBModel
         public string TitleTopic { get; set; }
 
         [Display(Name = "Описание темы")]
+        [MaxLength(5000)]
         public string DescriptionTopic { get; set; }
 
         [Display(Name = "Курс")]
