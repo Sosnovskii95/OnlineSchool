@@ -85,14 +85,6 @@ namespace OnlineSchool.Controllers
                     return View(registerModel);
                 }
 
-                var login = await _context.Clients.FirstOrDefaultAsync(e => e.LoginClient.Equals(registerModel.LoginClient));
-
-                if (login != null)
-                {
-                    ModelState.AddModelError("LoginClient", "Login занят");
-                    return View(registerModel);
-                }
-
                 var phone = await _context.Clients.FirstOrDefaultAsync(e => e.NumberPhone.Equals(registerModel.NumberPhone));
 
                 if (phone != null)
@@ -105,7 +97,6 @@ namespace OnlineSchool.Controllers
                 {
                     EmailClient = registerModel.EmailClient,
                     FirstLastNameClient = registerModel.FirstLastNameClient,
-                    LoginClient = registerModel.LoginClient,
                     NumberPhone = registerModel.NumberPhone,
                     PasswordClient = registerModel.PasswordClient,
                     Age = registerModel.Age

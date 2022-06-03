@@ -5,8 +5,8 @@
 }
 
 <h1>Страница с результатами в разработке!:)</h1>
-
-<label>@ViewBag.Progress</label>
-
-<a asp-action="ResetProgress" role="button" class="btn btn-danger">Сбросить результаты и пройти заново</a> 
+<hr />
+<label>Процент прохождения теста: @ViewBag.Progress</label>
+<br />
+<a asp-action="RunTest" asp-route-idLesson="@ViewBag.IdLesson" role="button" class="btn btn-danger">Пройти заново</a> 
 

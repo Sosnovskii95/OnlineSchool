@@ -5,7 +5,7 @@ namespace OnlineSchool.Models.DBModel
     public class TestLesson
     {
         [Key]
-        [Display(Name ="Номер вопроса")]
+        [Display(Name = "Номер вопроса")]
         public int Id { get; set; }
 
         [Display(Name = "Урок")]
@@ -15,6 +15,7 @@ namespace OnlineSchool.Models.DBModel
         public Lesson? Lesson { get; set; }
 
         [Display(Name = "Вопрос")]
+        [Required(ErrorMessage = "Вопрос")]
         public string Question { get; set; }
 
         [Display(Name = "Ответ 1")]
@@ -30,12 +31,15 @@ namespace OnlineSchool.Models.DBModel
         public string? AnswerFour { get; set; }
 
         [Display(Name = "Ответ 5")]
-        public string ?AnswerFive { get; set; }
+        public string? AnswerFive { get; set; }
 
         [Display(Name = "Правильный ответ. Укажите номер ответа, а не его значение")]
-        public string? RightAnswer { get; set; }
+        [Required(ErrorMessage = "Правильный ответ")]
+        [Range(1, 5, ErrorMessage = "Значение от 1 до 5")]
+        public string RightAnswer { get; set; }
 
         [Display(Name = "Подсказка")]
-        public string? HintQuestion { get; set; }
+        [Required(ErrorMessage = "Подсказка")]
+        public string HintQuestion { get; set; }
     }
 }

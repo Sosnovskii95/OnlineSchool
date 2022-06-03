@@ -37,13 +37,13 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Client.Id)
+                        @Html.DisplayFor(modelItem => item.Client.FirstLastNameClient)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Course.Id)
+                        @Html.DisplayFor(modelItem => item.Course.TitleCourse)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Access.Id)
+                        @Html.DisplayFor(modelItem => item.Access.TitleAccess)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" role="button" class="btn btn-outline-secondary">Редактировать</a>

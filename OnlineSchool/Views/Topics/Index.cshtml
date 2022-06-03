@@ -29,10 +29,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Course)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Image)
-                </th>
-                <th></th>
+                <th>Функции</th>
             </tr>
         </thead>
         <tbody>
@@ -46,10 +43,7 @@
                         @Html.DisplayFor(modelItem => item.DescriptionTopic)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Course.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Image.Id)
+                        @Html.DisplayFor(modelItem => item.Course.TitleCourse)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" role="button" class="btn btn-outline-secondary">Редактировать</a>

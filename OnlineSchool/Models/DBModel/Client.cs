@@ -10,9 +10,6 @@ namespace OnlineSchool.Models.DBModel
         [Display(Name = "Электронная почта")]
         public string EmailClient { get; set; }
 
-        [Display(Name = "Логин клиента")]
-        public string LoginClient { get; set; }
-
         [Display(Name = "Пароль")]
         public string PasswordClient { get; set; }
 

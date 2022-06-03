@@ -27,7 +27,7 @@
                     @Html.DisplayNameFor(model => model.DescriptionCourse)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Image)
+                    @Html.DisplayNameFor(model => model.Price)
                 </th>
                 <th></th>
             </tr>
@@ -43,7 +43,7 @@
                         @Html.DisplayFor(modelItem => item.DescriptionCourse)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Image.Id)
+                        @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" role="button" class="btn btn-outline-secondary">Редактировать</a>

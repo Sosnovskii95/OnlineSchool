@@ -26,7 +26,7 @@ namespace OnlineSchool.Controllers
             if (client != null)
             {
                 var hintLesson = await _context.HintTestLessons.Where(i => i.ClientId == client.Id)
-                    .Where(j => j.ValueResult != null)
+                    .Where(j => j.ValueResult != null & 70 <= j.ValueResult)
                     .Include(t => t.ResultTestLessons)
                     .ThenInclude(s => s.TestLesson)
                     .ThenInclude(s => s.Lesson)
@@ -224,12 +224,16 @@ namespace OnlineSchool.Controllers
 
             int countAll = await _context.TestLessons.Where(i => i.LessonId == idLesson).CountAsync();
 
-            hintTest.ValueResult = Convert.ToInt32(Math.Round(Convert.ToDouble(hintTest.CountRigth) / Convert.ToDouble(countAll) * 100));
+            int valueResult = Convert.ToInt32(Math.Round(Convert.ToDouble(hintTest.CountRigth) / Convert.ToDouble(countAll) * 100));
 
-            _context.Update(hintTest);
-            await _context.SaveChangesAsync();
-
-            ViewData["Progress"] = hintTest.ValueResult;
+            if (valueResult > 0)
+            {
+                hintTest.ValueResult = valueResult;
+                _context.Update(hintTest);
+                await _context.SaveChangesAsync();
+            }
+            ViewData["Progress"] = valueResult;
+            ViewData["IdLesson"] = idLesson;
 
             return View();
         }
@@ -322,6 +326,11 @@ namespace OnlineSchool.Controllers
                                 string content = "/Course/" + course.Id.ToString();
                                 return File(Path.Combine("~", content, course.Image.FileName), course.Image.ContentType, course.Image.FileName);
                             }
+                            else
+                            {
+                                string current = "/";
+                                return File(Path.Combine("~" + current, "noimage.jpg"), "image/jpeg", "noimage.jpg");
+                            }
                             break;
                         }
                     case "topic":
@@ -332,6 +341,11 @@ namespace OnlineSchool.Controllers
                             {
                                 string content = "/Topic/" + topic.Id.ToString();
                                 return File(Path.Combine("~", content, topic.Image.FileName), topic.Image.ContentType, topic.Image.FileName);
+                            }
+                            else
+                            {
+                                string current = "/";
+                                return File(Path.Combine("~" + current, "noimage.jpg"), "image/jpeg", "noimage.jpg");
                             }
                             break;
                         }

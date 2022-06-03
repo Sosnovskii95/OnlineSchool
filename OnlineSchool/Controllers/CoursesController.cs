@@ -136,6 +136,7 @@ namespace OnlineSchool.Controllers
 
                     updateCourse.DescriptionCourse = course.DescriptionCourse;
                     updateCourse.TitleCourse = course.TitleCourse;
+                    updateCourse.Price = course.Price;
 
                     if (nameFile != null)
                     {
@@ -236,7 +237,7 @@ namespace OnlineSchool.Controllers
             if (id != null)
             {
                 Course course = await _context.Courses.Include(i => i.Image).FirstOrDefaultAsync(i => i.Id == id);
-                if (course != null)
+                if (course.Image != null)
                 {
                     string current = "/Course/" + id.ToString();
                     return File(Path.Combine("~" + current, course.Image.FileName), course.Image.ContentType, course.Image.FileName);

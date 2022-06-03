@@ -37,10 +37,14 @@
             @Html.DisplayNameFor(model => model.Topic)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Topic.Id)
+            @Html.DisplayFor(model => model.Topic.TitleTopic)
         </dd>
     </dl>
-
+    <div class="col-md-8">
+        <div class="ratio ratio-16x9">
+            <iframe id="frame" src="@Model.URLVideo"></iframe>
+        </div>
+    </div>
     <div class="form-group mb-3">
         <form asp-action="Delete">
             <input type="hidden" asp-for="Id" />
