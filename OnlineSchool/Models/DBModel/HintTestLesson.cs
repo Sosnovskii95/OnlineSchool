@@ -11,6 +11,8 @@ namespace OnlineSchool.Models.DBModel
 
         public Client? Client { get; set; }
 
+        public int LessonId { get; set; }
+
         public int NumberHint { get; set; }
 
         public int CountRigth { get; set; }

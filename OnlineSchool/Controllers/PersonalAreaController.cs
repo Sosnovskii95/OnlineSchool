@@ -150,7 +150,8 @@ namespace OnlineSchool.Controllers
                 hintTestLesson = new HintTestLesson
                 {
                     ClientId = client.Id,
-                    NumberHint = await _context.HintTestLessons.Where(i => i.ClientId == 1).CountAsync() + 1
+                    NumberHint = await _context.HintTestLessons.Where(i => i.ClientId == 1).CountAsync() + 1,
+                    LessonId = idLesson
                 };
                 _context.Add(hintTestLesson);
                 await _context.SaveChangesAsync();

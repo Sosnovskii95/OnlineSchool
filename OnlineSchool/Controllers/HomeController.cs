@@ -21,10 +21,14 @@ namespace OnlineSchool.Controllers
 
         public IActionResult Index()
         {
-            var lessons = _context.Lessons.Where(i => i.Id <= 2).ToList();
+            var lessons = _context.Lessons.Where(i => i.Id <= 1).ToList();
 
             var test = _context.HintTestLessons.Where(c => c.ClientId == 1)
-                .Where(v => v.ValueResult != null & 70 <= v.ValueResult)
+                .Where(v => v.ValueResult != null & 70 <= v.ValueResult).Where(i => i.LessonId <= 2).Select(s=>s.LessonId).Distinct().ToList();
+
+            var s = test.Where(s => lessons.Select(i => i.Id).Contains(s)).Count();
+
+            if (test.Where(s => lessons.Select(i => i.Id).Contains(s)).Count() > 0) ;
 
             return View();
         }
