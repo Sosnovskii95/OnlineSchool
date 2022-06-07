@@ -5,7 +5,7 @@ namespace OnlineSchool.Models.AccountModel
     public class LoginModel
     {
         [Display(Name = "Электронная почта")]
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Некорректный электронный адрес")]
         public string Email { get; set; }
 
         [Display(Name = "Пароль")]

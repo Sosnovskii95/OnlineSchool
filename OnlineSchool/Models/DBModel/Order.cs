@@ -19,6 +19,12 @@ namespace OnlineSchool.Models.DBModel
         [Display(Name = "Курс")]
         public Course? Course { get; set; }
 
+        [Display(Name = "Пользователь")]
+        public int? UserId { get; set; }
+
+        [Display(Name = "Пользователь")]
+        public User? User { get; set; }
+
         [Display(Name = "Доступ")]
         public int AccessId { get; set; }
 

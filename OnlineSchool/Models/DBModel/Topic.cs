@@ -8,10 +8,12 @@ namespace OnlineSchool.Models.DBModel
         public int Id { get; set; }
 
         [Display(Name = "Название темы")]
+        [Required(ErrorMessage = "Название темы")]
         public string TitleTopic { get; set; }
 
         [Display(Name = "Описание темы")]
-        [MaxLength(5000)]
+        [MaxLength(5000, ErrorMessage = "Максимальное количество символов 5000")]
+        [Required(ErrorMessage = "Описание темы")]
         public string DescriptionTopic { get; set; }
 
         [Display(Name = "Курс")]

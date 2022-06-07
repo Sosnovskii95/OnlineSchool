@@ -17,7 +17,7 @@ namespace OnlineSchool.Models.DBModel
         public string DescriptionCourse { get; set; }
 
         [Display(Name = "Стоимость")]
-        [Range(typeof(decimal), "0,0", "100000,6", ErrorMessage = "Стоимость")]
+        [Range(typeof(decimal), "0,0", "100000,9", ErrorMessage = "Стоимость")]
         [Required(ErrorMessage = "Стоимость")]
         public decimal Price { get; set; }
 

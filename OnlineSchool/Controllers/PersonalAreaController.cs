@@ -331,7 +331,6 @@ namespace OnlineSchool.Controllers
                                 string current = "/";
                                 return File(Path.Combine("~" + current, "noimage.jpg"), "image/jpeg", "noimage.jpg");
                             }
-                            break;
                         }
                     case "topic":
                         {
@@ -347,7 +346,6 @@ namespace OnlineSchool.Controllers
                                 string current = "/";
                                 return File(Path.Combine("~" + current, "noimage.jpg"), "image/jpeg", "noimage.jpg");
                             }
-                            break;
                         }
                 }
             }

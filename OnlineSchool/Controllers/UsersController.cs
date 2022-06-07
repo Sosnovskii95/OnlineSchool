@@ -57,7 +57,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmailUser,LoginUser,PasswordUser,ActiveUser,RoleId")] User user)
+        public async Task<IActionResult> Create([Bind("Id,EmailUser,LoginUser,PasswordUser,FullNameUser, ActiveUser,RoleId")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace OnlineSchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmailUser,LoginUser,PasswordUser,ActiveUser,RoleId")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EmailUser,LoginUser,PasswordUser,FullNameUser, ActiveUser,RoleId")] User user)
         {
             if (id != user.Id)
             {

@@ -5,7 +5,7 @@ namespace OnlineSchool.Models.AccountModel
     public class RegisterModel
     {
         [Display(Name = "Электронная почта")]
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Некорректный электронный адрес")]
         [Required(ErrorMessage = "Электронная почта")]
         public string EmailClient { get; set; }
 

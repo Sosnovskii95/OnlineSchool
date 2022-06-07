@@ -22,7 +22,7 @@ namespace OnlineSchool.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var dBContextSchool = _context.Orders.Include(o => o.Access).Include(o => o.Client).Include(o => o.Course);
+            var dBContextSchool = _context.Orders.Include(o => o.Access).Include(o => o.Client).Include(o => o.Course).Include(u => u.User);
             return View(await dBContextSchool.ToListAsync());
         }
 
@@ -38,6 +38,7 @@ namespace OnlineSchool.Controllers
                 .Include(o => o.Access)
                 .Include(o => o.Client)
                 .Include(o => o.Course)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
@@ -51,8 +52,9 @@ namespace OnlineSchool.Controllers
         public IActionResult Create()
         {
             ViewData["AccessId"] = new SelectList(_context.Accesses, "Id", "TitleAccess");
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id");
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstLastNameClient");
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "TitleCourse");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FullNameUser");
             return View();
         }
 
@@ -70,8 +72,9 @@ namespace OnlineSchool.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AccessId"] = new SelectList(_context.Accesses, "Id", "TitleAccess", order.AccessId);
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", order.ClientId);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstLastNameClient", order.ClientId);
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "TitleCourse", order.CourseId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FullNameUser", order.UserId);
             return View(order);
         }
 
@@ -89,8 +92,9 @@ namespace OnlineSchool.Controllers
                 return NotFound();
             }
             ViewData["AccessId"] = new SelectList(_context.Accesses, "Id", "TitleAccess", order.AccessId);
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", order.ClientId);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstLastNameClient", order.ClientId);
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "TitleCourse", order.CourseId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FullNameUser", order.UserId);
             return View(order);
         }
 
@@ -127,8 +131,9 @@ namespace OnlineSchool.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AccessId"] = new SelectList(_context.Accesses, "Id", "TitleAccess", order.AccessId);
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", order.ClientId);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstLastNameClient", order.ClientId);
             ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "TitleCourse", order.CourseId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FullNameUser", order.UserId);
             return View(order);
         }
 
@@ -144,6 +149,7 @@ namespace OnlineSchool.Controllers
                 .Include(o => o.Access)
                 .Include(o => o.Client)
                 .Include(o => o.Course)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {

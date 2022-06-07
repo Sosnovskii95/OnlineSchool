@@ -49,9 +49,9 @@ namespace OnlineSchool.Data
             });
             modelBuilder.Entity<User>().HasData(new List<User>
             {
-                new User {Id = 1, EmailUser = "admin@admin", LoginUser = "admin", PasswordUser = "admin", RoleId = 1, ActiveUser = true},
-                new User{Id=2, EmailUser ="teacher@teacher", LoginUser = "teacher", PasswordUser = "teacher", RoleId = 2, ActiveUser = true},
-                new User {Id = 3, EmailUser ="metodist@metodist", LoginUser = "metodist", PasswordUser = "metodist", RoleId =3, ActiveUser = true}
+                new User {Id = 1, EmailUser = "admin@admin", FullNameUser = "Администратор",  PasswordUser = "admin", RoleId = 1, ActiveUser = true},
+                new User{Id=2, EmailUser ="teacher@teacher", FullNameUser = "Учитель", PasswordUser = "teacher", RoleId = 2, ActiveUser = true},
+                new User {Id = 3, EmailUser ="metodist@metodist", FullNameUser = "Методист", PasswordUser = "metodist", RoleId =3, ActiveUser = true}
             });
             modelBuilder.Entity<Client>().HasData(new Client
             {

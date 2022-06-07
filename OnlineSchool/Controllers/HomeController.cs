@@ -21,6 +21,11 @@ namespace OnlineSchool.Controllers
 
         public IActionResult Index()
         {
+            var lessons = _context.Lessons.Where(i => i.Id <= 2).ToList();
+
+            var test = _context.HintTestLessons.Where(c => c.ClientId == 1)
+                .Where(v => v.ValueResult != null & 70 <= v.ValueResult)
+
             return View();
         }
 
@@ -29,7 +34,7 @@ namespace OnlineSchool.Controllers
             return View();
         }
 
-        
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
