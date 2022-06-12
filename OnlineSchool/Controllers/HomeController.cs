@@ -19,23 +19,36 @@ namespace OnlineSchool.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var lessons = _context.Lessons.Where(i => i.Id <= 1).ToList();
-
-            var test = _context.HintTestLessons.Where(c => c.ClientId == 1)
-                .Where(v => v.ValueResult != null & 70 <= v.ValueResult).Where(i => i.LessonId <= 2).Select(s=>s.LessonId).Distinct().ToList();
-
-            var s = test.Where(s => lessons.Select(i => i.Id).Contains(s)).Count();
-
-            if (test.Where(s => lessons.Select(i => i.Id).Contains(s)).Count() > 0) ;
-
-            return View();
+            return View(await _context.Courses.ToListAsync());
         }
 
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public async Task<VirtualFileResult> GetImage(int id)
+        {
+            if (id != null)
+            {
+                Course course = await _context.Courses.Include(i => i.Image).FirstOrDefaultAsync(i => i.Id == id);
+                if (course.Image != null)
+                {
+                    string current = "/Course/" + id.ToString();
+                    return File(Path.Combine("~" + current, course.Image.FileName), course.Image.ContentType, course.Image.FileName);
+                }
+                else
+                {
+                    string current = "/";
+                    return File(Path.Combine("~" + current, "noimage.jpg"), "image/jpeg", "noimage.jpg");
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
 

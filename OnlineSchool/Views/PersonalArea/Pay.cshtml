@@ -35,7 +35,10 @@
             </div>
         </div>
         <div class="col-md-8">
-            <label>@course.TitleCourse</label>
+            <h3>Ваш заказ</h3>
+            <label>Курс: @course.TitleCourse</label><br />
+            <label>Количество тем в курсе: @ViewBag.Topics</label><br />
+            <label>Количество уроков: @ViewBag.Lessons</label><br />
             <input type="hidden" name="Id" value="@course.Id" />
         </div>
     </div>

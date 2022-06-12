@@ -1,10 +1,8 @@
 ﻿@model OnlineSchool.Models.DBModel.TestLesson
 @{
-    ViewData["Title"] = "RunTest";
+    ViewData["Title"] = "Тест";
     Layout = "~/Views/Shared/Client_Layout.cshtml";
 }
-
-<h1>TestLesson</h1>
 <form asp-action="CheckTest">
     <div class="row">
         <div class="col-md-8">
@@ -12,36 +10,47 @@
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" name="IdLesson" value="@ViewBag.IdLesson" />
                 <input type="hidden" name="HintId" value="@ViewBag.Hint" />
-                <label asp-for="Question" class="control-label">@Model.Question</label><br>
+                <h3>Вопрос: @Model.Question</h3>
+                <hr />
                 @if (!String.IsNullOrEmpty(Model.AnswerOne))
                 {
-                    <input type="radio" name="Answer" value="1" />
-                    <label asp-for="AnswerOne" class="control-label">@Model.AnswerOne</label>
-                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="Answer" name="Answer" value="1" />
+                        <label for="Answer" class="form-check-label">@Model.AnswerOne</label>
+                        <br>
+                    </div>
                 }
                 @if (!String.IsNullOrEmpty(Model.AnswerTwo))
                 {
-                    <input type="radio" name="Answer" value="2" />
-                    <label asp-for="AnswerTwo" class="control-label">@Model.AnswerTwo</label>
-                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="Answer" name="Answer" value="2" />
+                        <label for="Answer" class="form-check-label">@Model.AnswerTwo</label>
+                        <br>
+                    </div>
                 }
                 @if (!String.IsNullOrEmpty(Model.AnswerThree))
                 {
-                    <input type="radio" name="Answer" value="3" />
-                    <label asp-for="AnswerThree" class="control-label">@Model.AnswerThree</label>
-                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="Answer" name="Answer" value="3" />
+                        <label for="Answer" class="form-check-label">@Model.AnswerThree</label>
+                        <br>
+                    </div>
                 }
                 @if (!String.IsNullOrEmpty(Model.AnswerFour))
                 {
-                    <input type="radio" name="Answer" value="4" />
-                    <label asp-for="AnswerFour" class="control-label">@Model.AnswerFour</label>
-                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="Answer" name="Answer" value="4" />
+                        <label for="Answer" class="form-check-label">@Model.AnswerFour</label>
+                        <br>
+                    </div>
                 }
                 @if (!String.IsNullOrEmpty(Model.AnswerFive))
                 {
-                    <input type="radio" name="Answer" value="5" />
-                    <label asp-for="AnswerFive" class="control-label">@Model.AnswerFive</label>
-                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="Answer" name="Answer" value="5" />
+                        <label for="Answer" class="form-check-label">@Model.AnswerFive</label>
+                        <br>
+                    </div>
                 }
             </div>
         </div>

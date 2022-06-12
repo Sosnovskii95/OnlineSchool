@@ -1,4 +1,25 @@
-﻿@{
+﻿@model IEnumerable<OnlineSchool.Models.DBModel.Course>
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 pb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title">@item.TitleCourse</h5>
+                </div>
+                <img class="card-img-top" src="@Url.Action("GetImage", "Home", new {id = item.Id})" />
+                <div class="card-body">
+                    <p class="card-text">@item.DescriptionCourse</p>
+                </div>
+                <div class="card-footer">
+                    <p>Стоимость: @item.Price</p>
+                    <p>@Html.ActionLink("* Для приобритения Войдите/Зарегиструйтесь", "Login", "Account")</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 

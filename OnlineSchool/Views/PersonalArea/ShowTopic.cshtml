@@ -17,7 +17,7 @@
         @foreach (var item in Model.Lessons)
         {
             <div class="form-group mb-3">
-                <a asp-action="ShowLesson" asp-route-id="@item.Id"  role="button" class="btn btn-outline-primary">@item.TitleLesson</a>
+                <a asp-action="ShowLesson" asp-route-id="@item.Id" asp-route-TopicId="@ViewBag.TopicId" role="button" class="btn btn-outline-primary">@item.TitleLesson</a>
             </div>
         }
     </div>

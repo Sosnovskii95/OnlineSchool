@@ -1,4 +1,28 @@
-﻿@model IEnumerable<OnlineSchool.Models.DBModel.HintTestLesson>
+﻿@model IEnumerable<OnlineSchool.Models.ViewCustomModel.CourseProgressViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Client_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <a asp-action="Edit" role="button" class="btn btn-primary">Редактровать личные данные</a>
+    </div>
+    <div class="col-md-6">
+        <h1>Результаты</h1>
+        @foreach (var item in Model)
+        {
+            <div>
+                <label>Курс: @item.Course.TitleCourse</label>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @item.Progress%" aria-valuenow="@item.Progress" aria-valuemin="0" aria-valuemax="100">@item.Progress%</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@*@model IEnumerable<OnlineSchool.Models.DBModel.HintTestLesson>
 @using OnlineSchool.Models.DBModel;
 @{
     ViewData["Title"] = "Index";
@@ -26,3 +50,5 @@
         }
     }
 }
+
+<label>@ViewBag.Progress</label>*@

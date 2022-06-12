@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineSchool.Data;
 using OnlineSchool.Models.DBModel;
+using OnlineSchool.Models.ViewCustomModel;
 using System.Security.Claims;
 
 namespace OnlineSchool.Controllers
@@ -25,16 +26,29 @@ namespace OnlineSchool.Controllers
 
             if (client != null)
             {
-                var hintLesson = await _context.HintTestLessons.Where(i => i.ClientId == client.Id)
-                    .Where(j => j.ValueResult != null & 70 <= j.ValueResult)
-                    .Include(t => t.ResultTestLessons)
-                    .ThenInclude(s => s.TestLesson)
-                    .ThenInclude(s => s.Lesson)
-                    .ThenInclude(c => c.Topic)
-                    .ThenInclude(c => c.Course)
-                    .ToListAsync();
+                //Купленные курсы
+                var orders = await _context.Orders.Where(c => c.ClientId == client.Id).ToListAsync();
 
-                return View(hintLesson);
+                List<CourseProgressViewModel> viewModel = new List<CourseProgressViewModel>();
+
+                foreach(var item in orders)
+                {
+                    var lesson = await _context.Lessons.Where(s => s.Topic.CourseId == item.CourseId).ToListAsync();
+
+                    var hint = await _context.HintTestLessons.Where(i => i.ClientId == client.Id)
+                        .Where(j => j.ValueResult != null & 70 <= j.ValueResult)
+                        .Where(a => lesson.Select(o => o.Id).Contains(a.LessonId)).ToListAsync();
+
+                    var countHint = hint.Select(s => s.LessonId).Distinct().ToList();
+
+                    viewModel.Add(new CourseProgressViewModel
+                    {
+                        Course = await _context.Courses.FindAsync(item.CourseId),
+                        Progress = Convert.ToInt32(Math.Round(Convert.ToDouble(countHint.Count) / Convert.ToDouble(lesson.Count) * 100))
+                    });
+                }
+
+                return View(viewModel);
             }
 
             return View();
@@ -109,12 +123,12 @@ namespace OnlineSchool.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["TopicId"] = id;
             return View(topic);
         }
 
-        public async Task<IActionResult> ShowLesson(int id)
-        {
+        public async Task<IActionResult> ShowLesson(int id, int topicId)
+         {
             if (id == null)
             {
                 return NotFound();
@@ -122,9 +136,25 @@ namespace OnlineSchool.Controllers
 
             var lesson = await _context.Lessons.Include(t => t.TestLessons).FirstOrDefaultAsync(i => i.Id == id);
 
+            var lessonsCount = await _context.Lessons.Where(i => i.Id < id).ToListAsync();
+
+            var hintLessonCount = await _context.HintTestLessons.Where(c => c.ClientId == 1)
+                .Where(v => v.ValueResult != null & 70 <= v.ValueResult)
+                .Where(i => lessonsCount.Select(s => s.Id).Contains(i.LessonId)).Select(s => s.LessonId).Distinct().CountAsync();
+
             if (lesson == null)
             {
                 return NotFound();
+            }
+
+            if (hintLessonCount == lessonsCount.Count)
+            {
+                ViewData["RunTest"] = true;
+            }
+            else
+            {
+                ViewData["RunTest"] = false;
+                ViewData["TopicId"] = topicId;
             }
 
             return View(lesson);
@@ -248,6 +278,12 @@ namespace OnlineSchool.Controllers
                 if (course != null)
                 {
                     ViewData["Course"] = course;
+
+                    var topics = await _context.Topics.Where(c => c.CourseId == id).ToListAsync();
+
+                    ViewData["Topics"] = topics.Count;
+                    ViewData["Lessons"] = await _context.Lessons.Where(l => topics.Select(s => s.Id).Contains(l.TopicId)).CountAsync();
+
                     ViewData["Moth"] = new List<SelectListItem>
                     {
                         new SelectListItem{Text="01", Value="1" },

@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-6 mb-3">
-       <div class="ratio ratio-16x9">
+        <div class="ratio ratio-16x9">
             <iframe id="frame" src="@Model.URLVideo"></iframe>
         </div>
     </div>
@@ -18,9 +18,19 @@
         <hr />
         @if (Model.TestLessons.Count() > 0)
         {
-            <div>
-                <a asp-action="RunTest" asp-route-idLesson="@Model.Id" role="button" class="btn btn-primary">Начать тест</a>
-            </div>
+            if (ViewBag.RunTest)
+            {
+                <div>
+                    <a asp-action="RunTest" asp-route-idLesson="@Model.Id" role="button" class="btn btn-primary">Начать тест</a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <label>Пройдите предыдущий тест</label>
+                    <a asp-action="ShowTopic" asp-route-id="@ViewBag.TopicId" role="button" class="btn btn-primary">Вернуться к списку уроков</a>
+                </div>
+            }
         }
         else
         {
