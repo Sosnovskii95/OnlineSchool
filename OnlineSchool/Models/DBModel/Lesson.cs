@@ -18,7 +18,6 @@ namespace OnlineSchool.Models.DBModel
 
         [Display(Name = "Ссылка на видео (youtube)")]
         [DataType(DataType.Url)]
-        [Required(ErrorMessage = "Ссылка на видео (youtube)")]
         public string? URLVideo { get; set; }
 
         [Display(Name = "Тема")]

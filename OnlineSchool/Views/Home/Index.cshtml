@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<OnlineSchool.Models.DBModel.Course>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Главная страница";
 }
 <div class="row">
     @foreach (var item in Model)
@@ -15,7 +15,7 @@
                     <p class="card-text">@item.DescriptionCourse</p>
                 </div>
                 <div class="card-footer">
-                    <p>Стоимость: @item.Price</p>
+                    <p>Стоимость: @item.Price&#8381;</p>
                     <p>@Html.ActionLink("* Для приобритения Войдите/Зарегиструйтесь", "Login", "Account")</p>
                 </div>
             </div>

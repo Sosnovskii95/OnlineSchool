@@ -31,7 +31,7 @@ namespace OnlineSchool.Controllers
 
                 List<CourseProgressViewModel> viewModel = new List<CourseProgressViewModel>();
 
-                foreach(var item in orders)
+                foreach (var item in orders)
                 {
                     var lesson = await _context.Lessons.Where(s => s.Topic.CourseId == item.CourseId).ToListAsync();
 
@@ -52,6 +52,18 @@ namespace OnlineSchool.Controllers
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> Progress()
+        {
+            Client client = await GetAuthorize(HttpContext);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            return View(client);
         }
 
         public async Task<IActionResult> Edit()
@@ -128,7 +140,7 @@ namespace OnlineSchool.Controllers
         }
 
         public async Task<IActionResult> ShowLesson(int id, int topicId)
-         {
+        {
             if (id == null)
             {
                 return NotFound();

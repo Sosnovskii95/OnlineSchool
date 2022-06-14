@@ -18,7 +18,7 @@
             <hr />
             @if (!orders.Select(s => s.CourseId).Contains(item.Id))
             {
-                <a asp-action="Pay" asp-route-id="@item.Id" role="button" class="btn btn-primary">Приобрести</a><label>за @item.Price</label>
+                <a asp-action="Pay" asp-route-id="@item.Id" role="button" class="btn btn-outline-success">Приобрести за @item.Price&#8381;</a>
             }
             else
             {

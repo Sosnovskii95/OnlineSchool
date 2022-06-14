@@ -41,11 +41,14 @@
         </dd>
     </dl>
 </div>
-<div class="col-md-8">
-    <div class="ratio ratio-16x9">
-        <iframe id="frame" src="@Model.URLVideo"></iframe>
+@if (Model.URLVideo != null)
+{
+    <div class="col-md-8">
+        <div class="ratio ratio-16x9">
+            <iframe id="frame" src="@Model.URLVideo"></iframe>
+        </div>
     </div>
-</div>
+}
 <div class="form-group mb-3">
     <a asp-action="Edit" asp-route-id="@Model?.Id" role="button" class="btn btn-outline-primary">Редактировать</a>
     <a asp-action="Index" role="button" class="btn btn-outline-secondary">Вернуться к списку</a>

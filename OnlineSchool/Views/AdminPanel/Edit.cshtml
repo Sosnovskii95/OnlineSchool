@@ -2,7 +2,7 @@
 @model OnlineSchool.Models.DBModel.User
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редактирование данных";
     var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
     switch (role)
     {

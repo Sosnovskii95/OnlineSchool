@@ -63,7 +63,7 @@ namespace OnlineSchool.Controllers
         {
             if (ModelState.IsValid)
             {
-                lesson.URLVideo = lesson.URLVideo.Replace("watch?v=", "embed/");
+                lesson.URLVideo = lesson.URLVideo != null ? lesson.URLVideo.Replace("watch?v=", "embed/") : lesson.URLVideo;
                 _context.Add(lesson);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -105,7 +105,7 @@ namespace OnlineSchool.Controllers
             {
                 try
                 {
-                    lesson.URLVideo = lesson.URLVideo.Replace("watch?v=", "embed/");
+                    lesson.URLVideo = lesson.URLVideo != null ? lesson.URLVideo.Replace("watch?v=", "embed/") : lesson.URLVideo;
                     _context.Update(lesson);
                     await _context.SaveChangesAsync();
                 }
