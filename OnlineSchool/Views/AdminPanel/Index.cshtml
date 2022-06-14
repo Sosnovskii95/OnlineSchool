@@ -1,0 +1,48 @@
+﻿@using System.Security.Claims
+@model OnlineSchool.Models.DBModel.User
+@{
+    ViewData["Title"] = "Панель управления";
+    var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    switch (role)
+    {
+        case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
+        case "teacher": Layout = "~/Views/Shared/Teacher_Layout.cshtml"; break;
+        case "metodist" : Layout = "~/Views/Shared/Metodist_Layout.cshtml"; break;
+    };
+}
+
+<h1>Добро пожаловать в панель управления!</h1>
+<hr />
+<div>
+    <h4>Вы вошли под учетной записью:</h4>
+    <br />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmailUser)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullNameUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FullNameUser)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ActiveUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ActiveUser)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Role.TitleRole)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" role="button" class="btn btn-primary">Редактировать</a>
+</div>

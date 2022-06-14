@@ -54,29 +54,45 @@
                 }
             </div>
         </div>
-        <div class="col-md-4">
+        @*<div class="col-md-4">
             <div>
                 <span id="timer"></span>
             </div>
             <div class="form-group" id="hint" hidden>
-                <label asp-for="HintQuestion" class="control-label">@Model.HintQuestion</label>
+                <label asp-for="HintQuestion" class="control-label"></label>
             </div>
-        </div>
+        </div>*@
     </div>
     <input type="submit" value="Отправить" />
 </form>
 
+<div class="toast-container position-fixed top-50 end-0 translate-middle-y p-3">
+    <div id="liveToast" class="toast bg-warning" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header text-dark">
+            <strong class="me-auto">Подсказка!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+        </div>
+        <div class="toast-body text-dark">
+            @Model.HintQuestion
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
+    const toastLiveExample = document.getElementById('liveToast')
+
     function getHint() {
-        document.getElementById("hint").hidden = false;
-        document.getElementById("timer").innerHTML = "Время на ответ вышло";
+        /*document.getElementById("hint").hidden = false;
+        document.getElementById("timer").innerHTML = "Время на ответ вышло";*/
+        const toast = new bootstrap.Toast(toastLiveExample)
+        toast.show()
     }
 
     window.onload = function() {
 
-        var sec = 15;
-        let timerOne = setInterval(function() {
+        //var sec = 15;
+        /*let timerOne = setInterval(function() {
 
             if (10 <= sec) {
                 document.getElementById("timer").innerHTML = "Время на ответ - 00:" + sec;
@@ -86,9 +102,10 @@
             }
             sec--;
 
-        }, 900);
+        }, 900);*/
 
-        setTimeout(() => { clearInterval(timerOne); getHint(); }, 15000);
+        //setTimeout(() => { clearInterval(timerOne); getHint(); }, 15000);
+        setTimeout(() => { getHint(); }, 15000);
     }
 </script>
 

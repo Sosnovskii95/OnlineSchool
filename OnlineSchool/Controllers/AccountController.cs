@@ -34,15 +34,15 @@ namespace OnlineSchool.Controllers
 
                     if (user != null)
                     {
-                        await Authenticate(user.Id, user.Role.ValueRole);
-
-                        switch (user.Role.ValueRole)
+                        if (user.ActiveUser)
                         {
-                            case "admin": return RedirectToAction(nameof(Index), "Users");
-                            case "teacher": return RedirectToAction(nameof(Index), "Lessons");
+                            await Authenticate(user.Id, user.Role.ValueRole);
+
+                            return RedirectToAction(nameof(Index), "AdminPanel");
                         }
 
-                        return null;
+                        ModelState.AddModelError("", "Пользователю запрещен доступ! Обратитесь к администратору");
+                        return View(loginModel);
                     }
 
                     ModelState.AddModelError("", "Пользователя с такими данными не существует");
