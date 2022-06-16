@@ -107,7 +107,7 @@ namespace OnlineSchool.Controllers
 
                 await Authenticate(client.Id, "client");
 
-                return null;
+                return RedirectToAction(nameof(Index), "PersonalArea");
             }
 
             return View(registerModel);
