@@ -68,7 +68,7 @@ namespace OnlineSchool.Controllers
 
         public async Task<IActionResult> Edit()
         {
-            Client client = await _context.Clients.FindAsync(Convert.ToInt32(User.FindFirstValue(ClaimsIdentity.DefaultNameClaimType)));
+            Client client = await GetAuthorize(HttpContext);
 
             if (client != null)
             {
@@ -141,6 +141,13 @@ namespace OnlineSchool.Controllers
 
         public async Task<IActionResult> ShowLesson(int id, int topicId)
         {
+            Client client = await GetAuthorize(HttpContext);
+
+            if(client == null)
+            {
+                return NotFound();
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -150,7 +157,7 @@ namespace OnlineSchool.Controllers
 
             var lessonsCount = await _context.Lessons.Where(i => i.Id < id).ToListAsync();
 
-            var hintLessonCount = await _context.HintTestLessons.Where(c => c.ClientId == 1)
+            var hintLessonCount = await _context.HintTestLessons.Where(c => c.ClientId == client.Id)
                 .Where(v => v.ValueResult != null & 70 <= v.ValueResult)
                 .Where(i => lessonsCount.Select(s => s.Id).Contains(i.LessonId)).Select(s => s.LessonId).Distinct().CountAsync();
 

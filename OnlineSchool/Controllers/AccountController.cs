@@ -18,8 +18,9 @@ namespace OnlineSchool.Controllers
             _context = context;
         }
 
-        public IActionResult Login()
+        public IActionResult Login(bool reset)
         {
+            ViewData["reset"] = reset == true ? 1 : 0;
             return View();
         }
 
@@ -111,6 +112,35 @@ namespace OnlineSchool.Controllers
             }
 
             return View(registerModel);
+        }
+
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(RegisterModel registerModel)
+        {
+            if (registerModel != null)
+            {
+                Client client = await _context.Clients.Where(n => n.EmailClient.Equals(registerModel.EmailClient) && n.NumberPhone.Equals(registerModel.NumberPhone)).FirstOrDefaultAsync();
+
+                if (client != null)
+                {
+                    client.PasswordClient = client.EmailClient;
+
+                    _context.Update(client);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Login), new { reset = true});
+                }
+                ModelState.AddModelError("", "Совпадения не найдены");
+
+                return View(registerModel);
+            }
+
+            return NotFound();
         }
 
         public async Task<IActionResult> Logout()
