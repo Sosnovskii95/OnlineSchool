@@ -22,9 +22,33 @@ namespace OnlineSchool.Controllers
         }
 
         // GET: TestLessons
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? lesson, int? page)
         {
-            var dBContextSchool = _context.TestLessons.Include(t => t.Lesson);
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+
+            IQueryable<TestLesson> dBContextSchool = _context.TestLessons.Include(t => t.Lesson);
+
+            if(lesson != null & lesson.HasValue)
+            {
+                if(lesson != 0)
+                {
+                    dBContextSchool = dBContextSchool.Where(l => l.LessonId == lesson);
+                }
+            }
+
+            List<SelectListItem> selectListLesson = new List<SelectListItem> { new SelectListItem
+            {
+                Value = "0", Text= "Все"
+            }
+            };
+            foreach (var item in _context.Lessons)
+            {
+                selectListLesson.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.TitleLesson });
+            }
+
+            ViewData["Lesson"] = selectListLesson;
+
             return View(await dBContextSchool.ToListAsync());
         }
 

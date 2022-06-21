@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineSchool.Data;
 using OnlineSchool.Models.DBModel;
+using X.PagedList;
 
 namespace OnlineSchool.Controllers
 {
@@ -22,10 +23,34 @@ namespace OnlineSchool.Controllers
         }
 
         // GET: Lessons
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? topic, int? page)
         {
-            var dBContextSchool = _context.Lessons.Include(l => l.Topic);
-            return View(await dBContextSchool.ToListAsync());
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+
+            IQueryable<Lesson> dBContextSchool = _context.Lessons.Include(l => l.Topic);
+
+            if (topic != null & topic.HasValue)
+            {
+                if (topic != 0)
+                {
+                    dBContextSchool = dBContextSchool.Where(t => t.TopicId == topic);
+                }
+            }
+
+            List<SelectListItem> selectListTopic = new List<SelectListItem> { new SelectListItem
+            {
+                Value = "0", Text= "Все"
+            }
+            };
+            foreach (var item in _context.Topics)
+            {
+                selectListTopic.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.TitleTopic });
+            }
+
+            ViewData["Topic"] = selectListTopic;
+
+            return View(await dBContextSchool.ToPagedListAsync(pageNumber, pageSize));
         }
 
         // GET: Lessons/Details/5

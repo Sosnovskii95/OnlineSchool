@@ -1,9 +1,14 @@
 ﻿@using System.Security.Claims
-@model IEnumerable<OnlineSchool.Models.DBModel.Lesson>
+@using OnlineSchool.Models.DBModel;
+@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model IPagedList<OnlineSchool.Models.DBModel.Lesson>
 
 @{
     ViewData["Title"] = "Список уроков";
     var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
+    Lesson lesson = new Lesson();
     switch (role)
     {
         case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
@@ -16,21 +21,30 @@
 <p>
     <a asp-action="Create" role="button" class="btn btn-primary">Добавить урок</a>
 </p>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <label>Тема: </label>
+            @Html.DropDownList("Topic", ViewBag.Topic as SelectList)
+            <input type="submit" class="btn btn-primary" value="Фильтровать" />
+        </form>
+    </div>
+</div>
 <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.TitleLesson)
+                    @Html.DisplayNameFor(model => lesson.TitleLesson)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DescriptionLesson)
+                    @Html.DisplayNameFor(model => lesson.DescriptionLesson)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.URLVideo)
+                    @Html.DisplayNameFor(model => lesson.URLVideo)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Topic)
+                    @Html.DisplayNameFor(model => lesson.Topic)
                 </th>
                 <th></th>
             </tr>
@@ -60,4 +74,13 @@
             }
         </tbody>
     </table>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+        {
+        page = page
+        }), Bootstrap4PagedListRenderOptions.Default)
+    </div>
 </div>

@@ -1,13 +1,19 @@
 ﻿@using System.Security.Claims
-@model IEnumerable<OnlineSchool.Models.DBModel.Topic>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@using OnlineSchool.Models.DBModel;
+@using X.PagedList.Mvc.Bootstrap4.Core;
+@model IPagedList<OnlineSchool.Models.DBModel.Topic>
 
 @{
     ViewData["Title"] = "Список тем";
+    Topic topic = new Topic();
     var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
     switch (role)
     {
         case "admin": Layout = "~/Views/Shared/Admin_Layout.cshtml"; break;
-        case "metodist" : Layout = "~/Views/Shared/Metodist_Layout.cshtml"; break;
+        case "metodist": Layout = "~/Views/Shared/Metodist_Layout.cshtml"; break;
     };
 }
 
@@ -16,18 +22,27 @@
 <p>
     <a asp-action="Create" role="button" class="btn btn-primary">Добавить тему</a>
 </p>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <label>Курс: </label>
+            @Html.DropDownList("Course", ViewBag.Course as SelectList)
+            <input type="submit" class="btn btn-primary" value="Фильтровать" />
+        </form>
+    </div>
+</div>
 <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.TitleTopic)
+                    @Html.DisplayNameFor(model => topic.TitleTopic)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DescriptionTopic)
+                    @Html.DisplayNameFor(model => topic.DescriptionTopic)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Course)
+                    @Html.DisplayNameFor(model => topic.Course)
                 </th>
                 <th>Функции</th>
             </tr>
@@ -54,4 +69,13 @@
             }
         </tbody>
     </table>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+        {
+        page = page
+        }), Bootstrap4PagedListRenderOptions.Default)
+    </div>
 </div>

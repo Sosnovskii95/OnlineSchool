@@ -1,8 +1,13 @@
 ﻿@using System.Security.Claims
-@model IEnumerable<OnlineSchool.Models.DBModel.TestLesson>
+@using OnlineSchool.Models.DBModel;
+@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model IPagedList<OnlineSchool.Models.DBModel.TestLesson>
 
 @{
     ViewData["Title"] = "Список вопросов";
+    TestLesson testLesson = new TestLesson();
     var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
     switch (role)
     {
@@ -16,36 +21,45 @@
 <p>
     <a asp-action="Create" role="button" class="btn btn-primary">Добавить тестовый вопрос</a>
 </p>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <label>Тема: </label>
+            @Html.DropDownList("Lesson", ViewBag.Topic as SelectList)
+            <input type="submit" class="btn btn-primary" value="Фильтровать" />
+        </form>
+    </div>
+</div>
 <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Lesson)
+                    @Html.DisplayNameFor(model => testLesson.Lesson)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Question)
+                    @Html.DisplayNameFor(model => testLesson.Question)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AnswerOne)
+                    @Html.DisplayNameFor(model => testLesson.AnswerOne)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AnswerTwo)
+                    @Html.DisplayNameFor(model => testLesson.AnswerTwo)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AnswerThree)
+                    @Html.DisplayNameFor(model => testLesson.AnswerThree)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AnswerFour)
+                    @Html.DisplayNameFor(model => testLesson.AnswerFour)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AnswerFive)
+                    @Html.DisplayNameFor(model => testLesson.AnswerFive)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RightAnswer)
+                    @Html.DisplayNameFor(model => testLesson.RightAnswer)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.HintQuestion)
+                    @Html.DisplayNameFor(model => testLesson.HintQuestion)
                 </th>
                 <th></th>
             </tr>
@@ -90,4 +104,13 @@
             }
         </tbody>
     </table>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+        {
+        page = page
+        }), Bootstrap4PagedListRenderOptions.Default)
+    </div>
 </div>
