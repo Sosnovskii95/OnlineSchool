@@ -1,8 +1,13 @@
 ﻿@using System.Security.Claims
-@model IEnumerable<OnlineSchool.Models.DBModel.User>
+@using OnlineSchool.Models.DBModel
+@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model IPagedList<OnlineSchool.Models.DBModel.User>
 
 @{
     ViewData["Title"] = "Список пользователей";
+    User user = new User();
     var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
     switch (role)
     {
@@ -21,19 +26,19 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.EmailUser)
+                    @Html.DisplayNameFor(model => user.EmailUser)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PasswordUser)
+                    @Html.DisplayNameFor(model => user.PasswordUser)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FullNameUser)
+                    @Html.DisplayNameFor(model => user.FullNameUser)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ActiveUser)
+                    @Html.DisplayNameFor(model => user.ActiveUser)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Role)
+                    @Html.DisplayNameFor(model => user.Role)
                 </th>
                 <th></th>
             </tr>
@@ -66,4 +71,13 @@
             }
         </tbody>
     </table>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+        {
+        page = page
+        }), Bootstrap4PagedListRenderOptions.Default)
+    </div>
 </div>

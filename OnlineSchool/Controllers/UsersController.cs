@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineSchool.Data;
 using OnlineSchool.Models.DBModel;
+using X.PagedList;
 
 namespace OnlineSchool.Controllers
 {
@@ -20,10 +21,14 @@ namespace OnlineSchool.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+
             var dBContextSchool = _context.Users.Include(u => u.Role);
-            return View(await dBContextSchool.ToListAsync());
+
+            return View(await dBContextSchool.ToPagedListAsync(pageNumber, pageSize));
         }
 
         // GET: Users/Details/5

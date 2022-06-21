@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineSchool.Data;
 using OnlineSchool.Models.DBModel;
+using X.PagedList;
 
 namespace OnlineSchool.Controllers
 {
@@ -22,9 +23,12 @@ namespace OnlineSchool.Controllers
         }
 
         // GET: Clients
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            return View(await _context.Clients.ToListAsync());
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+
+            return View(await _context.Clients.ToPagedListAsync(pageNumber, pageSize));
         }
 
         // GET: Clients/Details/5

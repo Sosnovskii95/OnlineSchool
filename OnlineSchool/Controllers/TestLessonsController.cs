@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineSchool.Data;
 using OnlineSchool.Models.DBModel;
+using X.PagedList;
 
 namespace OnlineSchool.Controllers
 {
@@ -49,7 +50,7 @@ namespace OnlineSchool.Controllers
 
             ViewData["Lesson"] = selectListLesson;
 
-            return View(await dBContextSchool.ToListAsync());
+            return View(await dBContextSchool.ToPagedListAsync(pageNumber, pageSize));
         }
 
         // GET: TestLessons/Details/5

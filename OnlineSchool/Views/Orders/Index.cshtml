@@ -1,8 +1,13 @@
 ﻿@using System.Security.Claims
-@model IEnumerable<OnlineSchool.Models.DBModel.Order>
+@using OnlineSchool.Models.DBModel;
+@using X.PagedList
+@using X.PagedList.Mvc.Bootstrap4.Core
+@using X.PagedList.Mvc.Core
+@model IPagedList<OnlineSchool.Models.DBModel.Order>
 
 @{
     ViewData["Title"] = "Список заказов";
+    Order orders = new Order();
     var role = User.FindFirstValue(ClaimsIdentity.DefaultRoleClaimType);
     switch (role)
     {
@@ -21,16 +26,16 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Client)
+                    @Html.DisplayNameFor(model => orders.Client)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Course)
+                    @Html.DisplayNameFor(model => orders.Course)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Access)
+                    @Html.DisplayNameFor(model => orders.Access)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.User)
+                    @Html.DisplayNameFor(model => orders.User)
                 </th>
                 <th></th>
             </tr>
@@ -60,4 +65,13 @@
             }
         </tbody>
     </table>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.PagedListPager(Model, page => Url.Action(nameof(Index), new
+        {
+        page = page
+        }), Bootstrap4PagedListRenderOptions.Default)
+    </div>
 </div>
